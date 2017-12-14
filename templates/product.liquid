@@ -1,0 +1,119 @@
+{% comment %}
+  The contents of the product.liquid template can be found in /sections/product-template.liquid
+{% endcomment %}
+<div class="pcont-wrap">
+
+{% section 'product-template' %}
+</div>
+
+{% if product.handle contains 'dyln-living-alkaline-stainless-steel-water-bottle' %}
+
+{% section 'productcontent-template' %}
+
+{% endif %}
+
+{% if product.handle contains 'extra-vitabead-diffusers' %}
+{% section 'diffcontent-template' %}
+{% endif %}
+
+
+
+{% if product.handle contains 'dyln-living-alkaline-stainless-steel-water-bottle' and settings.pro_review_enable %}
+
+<div id="product-review-wrap" class="text-center">
+  <h1>Customer Reviews</h1>
+  
+  
+    <div class="" style="margin-top:0px;">    
+         <div style="margin: 0 auto;max-width: 1200px;">
+          <div style="text-align: left;"></div>
+  <div id="stamped-main-widget" class="stamped-main-widget"
+data-product-id="{{ product.id }}"
+data-name="{{ product.title | escape }}"
+data-url="{{ shop.url }}{{ product.url }}"
+data-image-url="{{ product.featured_image | product_img_url: "large" |replace: '?', '%3F' | replace: '&','%26'}}"
+data-description="{{ product.description | escape }}"
+data-product-sku="{{product.handle}}" data-take-reviews="10">
+  {{ product.metafields.stamped.reviews }}
+
+</div>
+    
+      </div>
+    </div>
+</div>
+{% endif %}
+{% if product.handle contains 'dyln-living-alkaline-stainless-steel-water-bottle' or product.handle contains 'extra-vitabead-diffusers' %}
+<div class="{%if product.handle contains 'extra-vitabead-diffusers' %} diffuser-faq {% endif %}">
+{% section 'productquestion-template' %}
+</div>  
+{% endif %}
+
+<div class="related-product" {% if product.handle contains 'extra-vitabead-diffusers' %} title="DYLN Living Water Bottle" {% else %} title="Accessories" {% endif %} >
+  {% section 'relatedproduct-template' %}
+</div>  
+
+
+<script>
+  // Override default values of shop.strings for each template.
+  // Alternate product templates can change values of
+  // add to cart button, sold out, and unavailable states here.
+  theme.productStrings = {
+    addToCart: {{ 'products.product.add_to_cart' | t | json }},
+    soldOut: {{ 'products.product.sold_out' | t | json }},
+    unavailable: {{ 'products.product.unavailable' | t | json }}
+  }
+</script>
+
+<script>
+  
+    if (!String.linkify) {
+        String.prototype.linkify = function () {
+            // http://, https://, ftp://
+            var urlPattern = /\b(?:https?|ftp):\/\/[a-z0-9-+&@#\/%?=~_|!:,.;]*[a-z0-9-+&@#\/%=~_|]/gim;
+            // www. sans http:// or https://
+            var pseudoUrlPattern = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
+            // Email addresses
+            var emailAddressPattern = /[\w.]+@[a-zA-Z_-]+?(?:\.[a-zA-Z]{2,6})+/gim;
+            return this
+                .replace(urlPattern, '<a href="$&">$&</a>')
+                .replace(pseudoUrlPattern, '$1<a href="http://$2">$2</a>')
+                .replace(emailAddressPattern, '<a href="mailto:$&">$&</a>');
+        };
+    }
+  
+  
+                            $('#stamped-main-widget .stamped-review-reply').each(function () {
+                                var currentHtml = $(this).html();
+                                $(this).html(currentHtml.linkify());
+                            });
+
+</script>
+<!-- This will allow Klaviyo to track people's favorite products -->
+<script text="text/javascript">
+  var _learnq = _learnq || [];
+
+  var item = {
+    Name: {{ product.title|json }},
+    ProductID: {{ product.id|json }},
+    Categories: {{ product.collections|map:'title'|json }},
+    ImageURL: "https:{{ product.featured_image.src|img_url:'grande' }}",
+    URL: "{{ shop.secure_url }}{{ product.url }}",
+    Brand: {{ product.vendor|json }},
+    Price: {{ product.price|money|json }},
+    CompareAtPrice: {{ product.compare_at_price_max|money|json }}
+  };
+
+  _learnq.push(['track', 'Viewed Product', item]);
+  _learnq.push(['trackViewedItem', {
+    Title: item.Name,
+    ItemId: item.ProductID,
+    Categories: item.Categories,
+    ImageUrl: item.ImageURL,
+    Url: item.URL,
+    Metadata: {
+      Brand: item.Brand,
+      Price: item.Price,
+      CompareAtPrice: item.CompareAtPrice
+    }
+  }]);
+</script>

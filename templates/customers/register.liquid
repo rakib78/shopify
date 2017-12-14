@@ -1,0 +1,146 @@
+<div class="container content">
+{% if customer  %}<script type="text/javascript">  window.location = "/account";</script>{% endif %}
+<div class = "row">
+  <div class = "col-md-offset-3 col-md-6 col-sm-offset-0 col-sm-12">
+
+
+    <div class="section signup-wrapper">
+      <div class = "form-wrapper">
+        <div class="heading-form acc">
+            <h3>Create Account</h3>
+            <p>Register with DYLN Inspired to manage your bottles, track your usage, be notified when it is time to replace your Diffuser, and speed up checkout by saving your address! Join the DYLN experience.</p>
+        </div>
+        <div id="customer">
+          <!-- Create Customer -->
+          <div id="create-customer" class = "form-init">
+
+            {% form 'create_customer' %}
+              {{ form.errors | default_errors }}
+              <div class="form-inner">
+
+                <input type="hidden" name="cart_item_count" id="cart_item_count" value={{ cart.item_count }}>
+
+                {% comment %}<h4>Contact Information</h4>{% endcomment %}
+
+                <div class="errors" cla><ul class = "err" id="error-n1"></ul></div>
+                <div id="first_name" class="clearfix large_form  form-block">
+                  <input type="text" placeholder = "{{ 'customer.register.first_name' | t }}" value="" name="customer[first_name]" id="first_name" class="large" size="30" />
+                </div>
+
+                <div class="errors"><ul class = "err" id="error-n2"></ul></div>
+                <div id="last_name" class="clearfix large_form  form-block">
+                  <input type="text" placeholder = "{{ 'customer.register.last_name' | t }}" value="" name="customer[last_name]" id="last_name" class="large" size="30" />
+                </div>
+
+
+                <div id="email" class="clearfix large_form  form-block">
+                  <div class="errors"><ul class = "err" id="error-email"></ul></div>
+                  <input type="email" placeholder = "{{ 'customer.register.email' | t }}" value="" name="customer[email]" id="email" class="large" size="30" />
+                </div>
+
+                <div id="password" class="clearfix large_form  form-block">
+                  <div class="errors"><ul class = "err" id="error-pass"></ul></div>
+                  <input type="password" placeholder = "{{ 'customer.register.password' | t }}" value="" name="customer[password]" id="password" class="large password" size="30" />
+                </div>
+
+                <div id="password_confirm" class="clearfix large_form  form-block">
+                  <input type="password" placeholder = "Confirm Password" value="" name="customer[password_confirmation]" id="password_confirm" class="large password" size="30" />
+                </div>
+
+                <div id="newsletter" class="hidden-checkbox  clearfix large_form">
+                  <input type="hidden" name="customer[accepts_marketing]" value="" />
+                  <input type="checkbox" name="customer[accepts_marketing]" checked="checked" />
+                  Sign up for our mailing list to receive exclusive content and special offers
+                </div>
+
+                <div class="action_bottom btn-wrap wide">
+                  <input class="btn action_button" type="submit" value="Sign Up" />
+                </div>
+
+              </div>
+            {% endform %}
+          </div><!-- /#create-customer -->
+        </div>
+
+        <div class = "center margin-top">
+          <p>
+            Already have an account? <a href = "/account/login" id ="showSignin">Log In →</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+jQuery(function() {
+  jQuery('#create_customer').submit(function(event) {
+    event.preventDefault();
+    $('#create_customer .err li').remove();
+    $('#create_customer #error-n1 li').remove();
+    //if lastname field is empty
+    if ($('#last_name #last_name').val() == ""){
+      jQuery('#create_customer #error-n2').append("<li>Last name can't be blank</li>");
+    }
+    //if both passwords do not match
+    if ($('#password #password').val() == ""){
+      jQuery('#create_customer #error-pass').append("<li>Password can't be blank</li>");
+    }
+    if ($('#password #password').val() != $('#password_confirm #password_confirm').val()){
+      jQuery('#create_customer #error-pass').append("<li>Passwords do not match</li>");
+    }
+    if ($('#email #email').val() == ""){
+      jQuery('#create_customer #error-email').append("<li>Email can't be blank</li>");
+    }
+    if ((!isValidEmailAddress($('#email #email').val())) && ($('#email #email').val() != "")){
+      jQuery('#create_customer #error-email').append("<li>Invalid email address</li>");
+    }
+    else if (((isValidEmailAddress($('#email #email').val())) && ($('#email #email').val() != "")) && ($('#password #password').val() != "") && ($('#password #password').val() == $('#password_confirm #password_confirm').val()) && ($('#last_name #last_name').val() != "")){
+      var data = jQuery(this).serialize();
+      //create new account
+      jQuery.post('/account', data).done(function(data){
+        var logErrors = jQuery(data).find('.errors').text();
+        var error_list = logErrors.split('.');
+        //if there are errors show them in the html form
+        if (logErrors != "" && logErrors != 'undefined'){
+          for (var i = 0; i < error_list.length; i++) {
+              $('#create_customer #error-n1').append('<li>' + error_list[i] + '</li>');
+          }
+        }
+        //if account creation is successful
+        else{
+          console.log('success');
+          var cart_item_count = $('[id="cart_item_count"]').val();
+          if(cart_item_count > 0){
+            document.location.href = '/checkout';
+          }
+          else{
+            document.location.href = '/a/dyln/bottles/register/';
+          }
+        }
+      }).fail(function(){
+          $('#create_customer #error-n1').append('<li> Too many attempts: Please try again in 10 minutes </li>');
+      });
+      return false;
+    }
+  });
+  // when fields are clicked, field errors will be gone
+  jQuery('#last_name').click(function(event) {
+    $('#create_customer #error-n2 li').remove();
+    $('#create_customer #error-n1 li').remove();
+  });
+  jQuery('#email').click(function(event) {
+    $('#create_customer #error-email li').remove();
+    $('#create_customer #error-n1 li').remove();
+  });
+  jQuery('#password, #password_confirm').click(function(event) {
+    $('#create_customer #error-pass li').remove();
+    $('#create_customer #error-n1 li').remove();
+  });
+  function isValidEmailAddress(emailAddress) {
+    var pattern = new RegExp(/^(("[\w-+\s]+")|([\w-+]+(?:\.[\w-+]+)*)|("[\w-+\s]+")([\w-+]+(?:\.[\w-+]+)*))(@((?:[\w-+]+\.)*\w[\w-+]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][\d]\.|1[\d]{2}\.|[\d]{1,2}\.))((25[0-5]|2[0-4][\d]|1[\d]{2}|[\d]{1,2})\.){2}(25[0-5]|2[0-4][\d]|1[\d]{2}|[\d]{1,2})\]?$)/i);
+    return pattern.test(emailAddress);
+  };
+});
+</script>
+</div>

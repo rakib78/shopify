@@ -1,0 +1,212 @@
+<div class="blog-header-bg hero overlay-one  hero--{{ settings.blog_header_height}}"
+     bg-url="{{ article | img_url: '1600x' }}"  >
+  <div class="hero__inner">
+    <div class="shideshow-wrap text-center">
+      <div class="imageo-text">
+        <h2 class="blog-header">
+          {{ article.title }}
+        </h2>
+      </div>
+    </div>
+    </div>
+  </div>
+<div class="blog-top-section">
+<div class="page-width">
+  <div class="left-pad">
+	<div class="pagination-wrapper">
+    {% if settings.blog_breadcrumb %}
+        <div class="clearfix breadcrumb">
+          <div class="breadcrumb_text" itemscope itemtype="http://schema.org/BreadcrumbList">
+            <span itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a href="{{ shop.url }}" title="{{ shop.name | escape }}" itemprop="item"><span itemprop="name">{{ 'general.breadcrumbs.home' | t }}</span></a></span> 
+            &nbsp;<span class="icon-right-arrow"></span>
+            <span itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a href="{{ blog.url }}" title="{{ blog.title | escape }}" itemprop="item"><span itemprop="name">{{ blog.title }}</span></a></span>       
+            &nbsp;<span class="icon-right-arrow"></span>
+            <span itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><span itemprop="name">{{ article.title }}</span></span>
+          </div>
+        </div>
+      {% endif %}     
+    </div>  
+    {% if blog.tags.size > 0 %}
+      <select id="BlogTagFilter">
+        <option value="/blogs/{{ blog.handle }}">{{ 'blogs.article.all_topics' | t }}</option>
+        {% for tag in blog.all_tags %}
+          <option value="/blogs/{{ blog.handle }}/tagged/{{ tag | handleize }}" {% if current_tags contains tag %}selected{% endif %}>{{ tag }}</option>
+        {% endfor %}
+      </select>
+    {% endif %}
+  <div style="clear:both"></div>
+  </div>
+  </div>  
+</div>
+{% comment %}
+  Comments will not appear right after they are submitted, either to be checked for spam
+  or to await moderation. When a comment is submitted, the browser is redirected to a page
+  that includes the new comment id in its URL.
+    Example: http://shopname.myshopify.com/blogs/news/2022072-my-post?comment=3721372
+{% endcomment %}
+
+{%- assign number_of_comments = article.comments_count -%}
+
+{% comment %}
+  If a comment was just submitted and it has no blank fields, we have an extra comment to count.
+{% endcomment %}
+{% if comment and comment.created_at %}
+  {%- assign number_of_comments = article.comments_count | plus: 1 -%}
+{% endif %}
+
+
+      
+
+
+<div class="page-width">
+<div class="left-pad">  
+{% if settings.enable_blog_sidebar %} 
+<div class="grid">
+{% endif %}
+  
+<div class="{% if settings.enable_blog_sidebar %}grid__item medium-up--three-quarters {% endif %}" id="blog-main">  
+{% section 'article-template' %}
+
+          <br class="clear" />
+          <hr />
+          <div class="gravatar two columns alpha center" data-email="{{ article.user.email }}">
+            <img src="//1.gravatar.com/avatar/{{ article.user.email | md5 }}?s=80&r=G" alt="{{ article.author }}" />
+          </div>
+          <div class="author-info">
+            <h6>{{ article.author }}</h6>
+            <p>
+              {{ article.user.bio }}
+            </p>
+          </div>
+  <div style="clear:both" /></div>
+  <hr style="border: 0 none;" />
+  
+        {% if settings.comment_disqus_enable %}
+          <div id="disqus_thread"></div>
+          <script>
+              var disqus_config = function () {
+                  this.page.url = "{{ canonical_url }}";
+                  this.page.identifier = "{{ article.id }}";
+              };
+              (function() { 
+                  var d = document, s = d.createElement('script');
+                  s.src = '//{{ settings.comment_disqus_user }}.disqus.com/embed.js';
+                  s.setAttribute('data-timestamp', +new Date());
+                  (d.head || d.body).appendChild(s);
+              })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+        {% endif %}  
+  
+  
+  
+{% if blog.comments_enabled? %}
+
+
+
+{% endif %}
+
+  
+
+  
+<!-- Related Article -->  
+<div id="related-art-wrap">
+  <h3 class="related-article-title">{{ 'blogs.article.additional_articles' | t: title: blog.title }}</h3>  
+  	{% assign article_found = false %}
+<div class="grid grid--uniform grid--blog">  
+{% for a in blog.articles limit: 4 %}
+{% assign skip_article = false %}
+    {% if article_found == false and forloop.last %}
+    {% assign skip_article = true %}
+    {% endif %}
+  
+    {% if article.id == a.id %}
+    {% assign article_found = true %}
+    {% assign skip_article = true %}
+    {% endif %}
+  
+	{% unless skip_article %}
+        <div class="grid__item medium-up--one-third">
+          {% if a.image %}
+            <a href="{{ a.url }}" class="article__grid-image">
+              <img class="img-lazy" src="" data-original="{{ a.image | img_url: '500x' }}" alt="{{ article.title }}">
+            </a>
+          {% endif %}
+
+          <div class="article__grid-meta{% if a.image %} article__grid-meta--has-image{% endif %}">
+            <div class="fartical-header">
+            <h3 class="farticle-title">
+              <a href="{{ a.url }}">{{ a.title }}</a>
+            </h3>
+            <div class="farticle-auth-date">  
+              <span class="farticle-author farticle-meta">{{ 'blogs.article.by_author' | t: author: article.author }}</span>
+			
+            {% if section.settings.blog_show_date %}
+              <span class="article-date farticle-meta">
+                {{ a.published_at | time_tag: format: 'month_day_year' }}
+              </span>
+            {% endif %}
+              </div> 
+              
+			{% if a.tags.size > 0 %}
+              <div class="farticle-tags farticle-meta">
+                {% for tag in article.tags %}
+                  <a href="{{ blog.url }}/tagged/{{ tag | handle }}" class="article__grid-tag">{{ tag }}</a>
+                {% endfor %}
+              </div>
+            {% endif %}
+
+            </div>
+            <div class="rte article__grid-excerpt">
+              {% if a.excerpt.size > 0 %}
+                {{ a.excerpt }}
+              {% else %}
+                {{ a.content | strip_html | truncate: 150 }}
+              {% endif %}
+            </div>
+
+
+
+            <ul class="list--inline">
+              <li>
+                <a href="{{ a.url }}" class="btn btn-dark">
+                  {{ 'blogs.article.read_more' | t }}
+                </a>
+              </li>
+
+              {% if blog.comments_enabled? and article.comments_count > 0 %}
+                <li>
+                  <a href="{{ article.url }}#comments" class="btn btn--small btn--link">
+                    {{ 'blogs.comments.comments_with_count' | t: count: article.comments_count }}
+                  </a>
+                </li>
+              {% endif %}
+            </ul>
+          </div>
+        </div>  
+  
+  	{% endunless %}
+{% endfor %}  
+</div>  
+</div>
+
+<div class="text-center return-link-wrapper">
+  <a href="{{ blog.url }}" class="btn btn--secondary btn--has-icon-before return-link">
+    {% include 'icon-arrow-left' %}
+    {{ 'blogs.article.back_to_blog' | t: title: blog.title }}
+  </a>
+</div>  
+  
+  
+</div>
+  
+{% if settings.enable_blog_sidebar %}
+<div class="grid__item medium-up--one-quarter" id="main-sidebar">  
+{% section 'sidebar-template' %}
+</div>  
+
+{% endif %}
+</div>  
+</div>
+
+

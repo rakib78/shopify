@@ -1,0 +1,251 @@
+{% if section.settings.enable_contact_header %}
+<div class="contact-header text-center" style="background-color: {{ section.settings.contact_header_bg }}; height: {{ section.settings.contact_header_height }}px; ">
+  <div class="page-width">
+    <div class="content-wrap">
+    <h2 class="contact-header-title">{{ section.settings.contact_header_title }}</h2>
+    {% if section.settings.contact_header_subtitle != blank %}
+    <p class="contact-header-subtitle">{{section.settings.contact_header_subtitle}}</p>
+    {% endif %}
+    
+    <div class="contact-box-link">
+	  <ul>
+        <li class="icon-call"><a href="#call-section" class="scroll-link">Call Us</a></li>
+        <li class="icon-sms"><a href="#sms-section" class="scroll-link">Text Us</a></li>
+        <li class="icon-email"><a href="#email-section" class="scroll-link">Email Us</a></li>
+        <li class="icon-support"><a href="#support-section" class="scroll-link">Help Desk</a></li>
+      </ul>  
+    </div>
+    </div>  
+  </div>  
+</div>
+{% else %}
+<div class="page-header">
+  <div class="page-width">
+  <h2 class="page-title">{{ page.title }}</h2>
+  </div>  
+</div>  
+{% endif %}
+
+<div class="contact-content-wrap">
+{% for block in section.blocks %} 
+  
+{% case block.type %}
+{% when 'icon' %}
+<div id="{{ block.settings.box_type }}" class="page-width box-icon">
+  <div class="box-content text-center">
+  {% if block.settings.icon_img %}
+    <img class="icon-img" src="{{block.settings.icon_img | img_url: 'master'}}" alt="{{ block.settings.box_title }}" >
+  {% endif %}  
+  {% if block.settings.box_title != blank %}  
+  <h3 class="contact-box-title">{{ block.settings.box_title }}</h3>
+  {% endif %}
+  {% if block.settings.html_box != blank %}   
+  <div class="contact-box-text">
+    {{ block.settings.html_box }}
+  </div>
+  {% endif %}  
+  </div>   
+</div>  
+  
+{% when 'custom' %}
+<div  class="page-width box-custom">
+  <div class="box-content text-center">  
+  {% if block.settings.box_title != blank %}  
+  <h3 class="contact-box-title">{{ block.settings.box_title }}</h3>
+  {% endif %}
+  {% if block.settings.html_box != blank %}   
+  <div class="contact-box-text">
+    {{ block.settings.html_box }}
+  </div>
+  {% endif %}  
+  </div>   
+</div>  
+  
+{% when 'form' %}
+<div class="contact-form-wrap page-width" id="email-section">
+  <div class="box-content text-center">
+  {% if block.settings.icon_img %}
+    <img class="icon-img" src="{{block.settings.icon_img | img_url: 'master' }}" alt="{{ block.settings.box_title }}" >
+  {% endif %}  
+  {% if block.settings.box_title != blank %}  
+  <h3 class="contact-box-title">{{ block.settings.box_title }}</h3>
+  {% endif %}
+  {% if block.settings.html_box != blank %}   
+  <div class="contact-box-text">
+    {{ block.settings.html_box }}
+  </div>
+  {% endif %}  
+  </div>
+  <div class="contact-reason">
+    <select name="reason" id="contact-reason">
+      <option value="0">Select a reason for contacting us</option>
+      <option value="2">Product Support</option>
+      <option value="2">General Questions</option>
+      <option value="1">Wholesale</option>
+      <option value="3">Sign Up For Newsletter</option>
+      <option value="4">Returns</option>
+     <!-- <option value="5">Other</option> -->
+    </select>
+  </div>  
+      <div class="contact-form-wrap form-vertical" style="display:none;">
+        
+        {% form 'contact' %}
+
+          {% if form.posted_successfully? %}
+            <p class="note form-success">
+              {{ 'contact.form.post_success' | t }}
+            </p>
+          {% endif %}
+
+          {{ form.errors | default_errors }}
+
+
+              <label for="ContactFormName">{{ 'contact.form.name' | t }}</label>
+              <input type="text" placeholder="Full name" id="ContactFormName" name="contact[name]" value="{% if form[name] %}{{ form[name] }}{% elsif customer %}{{ customer.name }}{% endif %}">
+
+              <label for="ContactFormEmail" class="{% if form.errors contains 'email' %}label--error{% endif %}">{{ 'contact.form.email' | t }}</label>
+              <input placeholder="Email address" type="email" id="ContactFormEmail" name="contact[email]" autocorrect="off" autocapitalize="off" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}" class="{% if form.errors contains 'email' %}input--error{% endif %}">
+
+
+          <label for="ContactFormPhone">{{ 'contact.form.phone' | t }}</label>
+          <input placeholder="Phone Number" type="tel" id="ContactFormPhone" name="contact[phone]" pattern="[0-9\-]*" value="{% if form[phone] %}{{ form[phone] }}{% elsif customer %}{{ customer.phone }}{% endif %}">
+
+          <label for="ContactFormMessage">{{ 'contact.form.message' | t }}</label>
+          <textarea placeholder="Message" rows="6" id="ContactFormMessage" name="contact[body]">{% if form.body %}{{ form.body }}{% endif %}</textarea>
+
+          <input type="submit" class="btn" value="Submit">
+
+        {% endform %}
+      </div>
+  </div>
+  {% endcase %}
+{% endfor %}  
+</div>
+
+<style type="text/css">
+  .contact-header-title, .contact-header-subtitle, .contact-box-link a { 
+    color: {{ section.settings.contact_header_color }}
+  }  
+</style>  
+
+{% schema %}
+  {
+    "name": "Contact Page",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "enable_contact_header",
+        "default": true,
+        "label": "Enable Contact Header"
+      },
+	  {
+		"type": "text",
+		"id": "contact_header_height",
+		"label": "Contact Header Height",
+		"default": "250"
+	  },
+      {
+        "type": "text",
+        "id": "contact_header_title",
+        "label": "Header Title",
+        "default": "Get in Touch"
+      }, 
+      {
+        "type": "text",
+        "id": "contact_header_subtitle",
+        "label": "Header Sub Title",
+        "default": "How can we help? We’re just a call, text or email away. Feel free to contact us at any time."
+      },
+	  {
+		"type": "color",
+		"id": "contact_header_bg",
+		"label": "Header background color",
+		"default": "#00ADDB"
+	  },
+	  {
+		"type": "color",
+		"id": "contact_header_color",
+		"label": "Header Text color",
+		"default": "#FFFFFF"
+	  }	
+	],
+
+    "blocks": [
+		{
+        "type": "icon",
+        "name": "Icon Box",
+		"settings": [
+			{
+			  "type": "select",
+			  "id": "box_type",
+			  "label": "Select Box type",
+			  "options": [
+				{"value": "call-section", "label": "Call"},
+                {"value": "sms-section", "label": "SMS"},
+				{"value": "support-section", "label": "Support"},
+                {"value": "business-section", "label": "Business"}
+			  ]
+			},
+			{
+			  "type": "image_picker",
+			  "id": "icon_img",
+			  "label": "Add Icon Image"
+			},
+			{
+			  "type": "text",
+			  "id": "box_title",
+			  "label": "Title"
+			},
+			{
+			  "type": "html",
+			  "id": "html_box",
+			  "label": "Content"
+			}
+		  ]
+		},
+		{
+		  "type": "custom",
+		  "name": "Custom Html",
+		  "settings": [
+			{
+			  "type": "text",
+			  "id": "box_title",
+			  "label": "Title"
+			},
+			{
+			  "type": "html",
+			  "id": "html_box",
+			  "label": "Content"
+			}
+		  ]
+		},
+		{
+		  "type": "form",
+		  "name": "Contact Form",
+		  "settings": [
+			{
+			  "type": "image_picker",
+			  "id": "icon_img",
+			  "label": "Add Icon Image"
+			},
+			{
+			  "type": "text",
+			  "id": "box_title",
+			  "label": "Title"
+			},
+			{
+			  "type": "html",
+			  "id": "html_box",
+			  "label": "Content"
+			}
+		  ]
+		}
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

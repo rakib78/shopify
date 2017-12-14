@@ -1,0 +1,111 @@
+<!-- Facebook Pixel Code -->
+<script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  
+  {% if customer %}
+  	fbq('init', '926613340722558', { 
+    	em: '{{customer.email}}',
+    	fn: '{{customer.first_name}}',
+    	ln: '{{customer.last_name}}'
+	});
+  {% else %}
+	fbq('init', '926613340722558');  	
+  {% endif %}
+  
+  fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=926613340722558&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Facebook Pixel Code -->
+
+
+<script>             
+/* ViewContent */              
+{% if template == 'index' %}  
+fbq('track', 'ViewContent', {
+  content_name: '{{template}}',
+  content_type: 'homepage'
+});  
+{% else %}
+  {% if template contains 'page' %}  
+		fbq('track', 'ViewContent', {
+  			content_name: '{{page.title}}',
+          	content_type: '{{template}}',
+  			content_category: '{{page.handle}}'
+		});
+  {% endif %}
+    
+  {% if template contains 'collection' %}
+  		fbq('track', 'ViewContent', {
+  			content_name: '{{collection.title}}',
+          	content_type: '{{template}}',
+  			content_category: '{{collection.handle}}'
+		});
+  {% endif %}
+  
+  {% if template contains 'product' %}
+  		fbq('track', 'ViewContent', {
+  			content_name: '{{product.title}}',
+          	content_type: '{{template}}',
+  			content_category: '{{product.handle}}',
+          	value: '{{product.price | money_without_currency}}',
+          	currency: 'USD'
+		});
+  {% endif %}
+  
+  {% if template contains 'blog' %}
+  		fbq('track', 'ViewContent', {
+  			content_name: '{{blog.title}}',
+          	content_type: '{{template}}',
+  			content_category: '{{blog.handle}}'
+		});
+  {% endif %}
+  
+  {% if template contains 'article' %}
+  		fbq('track', 'ViewContent', {
+  			content_name: '{{article.title}}',
+          	content_type: '{{template}}',
+  			content_category: '{{article.handle}}'
+		});
+  {% endif %}
+  
+  {% if template contains 'customers' %}
+  		fbq('track', 'ViewContent', {
+          	content_type: '{{template}}'
+		});
+  {% endif %}
+{% endif %}  
+/* ViewContent */  
+  
+  
+
+/* AddToCart */ 
+{% if template contains 'product' %}
+$(document).ready(function(){
+  $('form[action="/cart/add"] button[type="submit"]').click(function() {
+    	var price = $(".product-single-price").text().replace("$", "");
+    	var vid = $('form[action="/cart/add"] select[name="id"]').val();
+    	var qty = $('form[action="/cart/add"] input[name="quantity"]').val();
+    	console.log(price);
+      fbq('track', 'AddToCart', {
+        content_name: '{{product.title}}', 
+        content_category: '{{product.handle}}',
+        content_type: 'product',
+        value: $.trim(price),
+        currency: 'USD',
+        num_items: qty,
+        content_ids: [vid]
+      });  
+  });  
+});  
+{% endif %}  
+/* AddToCart */  
+</script>

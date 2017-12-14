@@ -1,0 +1,122 @@
+<div class="custom-html-section page-width">
+    {% if section.settings.title != blank %}
+    <div class="section-header text-center">
+      <h2 class="section-title">{{ section.settings.title }}</h2>
+      <div class="devider"></div>
+    </div>
+  {% endif %}
+  {% if section.settings.content != blank %}
+	<div class="custom-html-content {{ section.settings.content_alignment }}">
+      {{ section.settings.content }}
+    </div> 
+  {% endif %}
+  
+</div>
+
+<style type="text/css">
+  #shopify-section-{{section.id}} {
+    
+    padding-top: {{section.settings.section_padding}}px;
+    padding-bottom: {{section.settings.section_padding_bottom}}px;
+    background-color: {{ section.settings.bg_color }};
+  
+  }
+  
+#shopify-section-{{section.id}} .custom-html-content{
+  
+  color: {{section.settings.text_color}};
+  font-size: {{ section.settings.font_size }}px;
+  
+}
+#shopify-section-{{section.id}} .section-title{
+  color: {{section.settings.title_color}};
+}
+</style> 
+
+{% schema %}
+  {
+    "name": "Custom Html",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "Custom Html Section"
+      },
+      {
+        "type": "html",
+        "id": "content",
+        "label": "Content",
+        "default": "<p>I am custom Content Section you can put any thing here</p><p>Remove me and put your content Enjoy!!!</p>"
+      },
+      {
+        "type": "color",
+        "id": "bg_color",
+        "label": "Beckground color",
+        "default": "#F6F7F9"
+      },
+	  {
+        "type": "color",
+        "id": "title_color",
+        "label": "Title color",
+        "default": "#363636"		
+	  },
+      {
+        "type": "color",
+        "id": "text_color",
+        "label": "Text color",
+        "default": "#363636"
+      },
+	  {
+		"type": "text",
+		"id": "font_size",
+		"label": "Font Size (In Pixel)",
+		"default": "17"
+	  },
+      {
+        "type": "select",
+        "id": "content_alignment",
+        "label": "Content alignment",
+        "default": "text-center",
+        "options": [
+          {
+          "value": "text-center",
+          "label": "Center"
+          },
+          {
+          "value": "text-left",
+          "label": "Left"
+          },
+          {
+          "value": "text-right",
+          "label": "Right"
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "id": "section_padding",
+        "label": "Padding TOP (IN PIXEL)",
+        "default": "50"
+      },
+      {
+        "type": "text",
+        "id": "section_padding_bottom",
+        "label": "Padding Bottom (IN PIXEL)",
+        "default": "50"
+      }
+	],
+    "presets": [
+      {
+        "name": "Custom Html",
+        "category": "Text"
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

@@ -1,0 +1,82 @@
+{% comment %} BEGIN ULTRASEO {% endcomment %}
+{% assign maxmeta = 155 %}
+{% if template contains 'product' %}
+{% if product.metafields.ultraseo.title %}
+<title>{{ product.metafields.ultraseo.title | strip_html | strip_newlines | truncate: maxmeta | escape }}</title>
+{% endif %}
+{% if product.metafields.ultraseo.description %}
+<meta name='description' content='{{ product.metafields.ultraseo.description | strip_html | strip_newlines | truncate: maxmeta | escape }}' />
+{% endif %}
+{% if product.metafields.ultraseo.author %}
+<meta name='author' content='{{ product.metafields.ultraseo.author | strip_html | strip_newlines | truncate: maxmeta | escape }}' />
+{% endif %}
+{% if product.metafields.ultraseo.keywords %}
+<meta name='keywords' content='{{ product.metafields.ultraseo.keywords | strip_html | strip_newlines | truncate: maxmeta | escape }}' />
+{% endif %}
+{% elsif template contains 'blog' %}
+{% if blog.metafields.ultraseo.title %}
+<title>{{ blog.metafields.ultraseo.title | strip_html | strip_newlines | truncate: maxmeta | escape }}</title>
+{% endif %}
+{% if blog.metafields.ultraseo.description %}
+<meta name='description' content='{{ blog.metafields.ultraseo.description | strip_html | strip_newlines | truncate: maxmeta | escape }}' />
+{% endif %}
+{% if blog.metafields.ultraseo.author %}
+<meta name='author' content='{{ blog.metafields.ultraseo.author | strip_html | strip_newlines | truncate: maxmeta | escape }}' />
+{% endif %}
+{% if blog.metafields.ultraseo.keywords %}
+<meta name='keywords' content='{{ blog.metafields.ultraseo.keywords | strip_html | strip_newlines | truncate: maxmeta | escape }}' />
+{% endif %}
+{% elsif template contains 'article' %}
+{% if article.metafields.ultraseo.title %}
+<title>{{ article.metafields.ultraseo.title | strip_html | strip_newlines | truncate: maxmeta | escape }}</title>
+{% endif %}
+{% if article.metafields.ultraseo.description %}
+<meta name='description' content='{{ article.metafields.ultraseo.description | strip_html | strip_newlines | truncate: maxmeta | escape }}' />
+{% endif %}
+{% if article.metafields.ultraseo.author %}
+<meta name='author' content='{{ article.metafields.ultraseo.author | strip_html | strip_newlines | truncate: maxmeta | escape }}' />
+{% endif %}
+{% if article.metafields.ultraseo.keywords %}
+<meta name='keywords' content='{{ article.metafields.ultraseo.keywords | strip_html | strip_newlines | truncate: maxmeta | escape }}' />
+{% endif %}
+{% elsif template contains 'collection' %}
+{% if collection.metafields.ultraseo.title %}
+<title>{{ collection.metafields.ultraseo.title | strip_html | strip_newlines | truncate: maxmeta | escape }}</title>
+{% endif %}
+{% if collection.metafields.ultraseo.description %}
+<meta name='description' content='{{ collection.metafields.ultraseo.description | strip_html | strip_newlines | truncate: maxmeta | escape }}' />
+{% endif %}
+{% if collection.metafields.ultraseo.author %}
+<meta name='author' content='{{ collection.metafields.ultraseo.author | strip_html | strip_newlines | truncate: maxmeta | escape }}' />
+{% endif %}
+{% if collection.metafields.ultraseo.keywords %}
+<meta name='keywords' content='{{ collection.metafields.ultraseo.keywords | strip_html | strip_newlines | truncate: maxmeta | escape }}' />
+{% endif %}
+{% elsif template contains 'page' %}
+{% if page.metafields.ultraseo.title %}
+<title>{{ page.metafields.ultraseo.title | strip_html | strip_newlines | truncate: maxmeta | escape }}</title>
+{% endif %}
+{% if page.metafields.ultraseo.description %}
+<meta name='description' content='{{ page.metafields.ultraseo.description | strip_html | strip_newlines | truncate: maxmeta | escape }}' />
+{% endif %}
+{% if page.metafields.ultraseo.author %}
+<meta name='author' content='{{ page.metafields.ultraseo.author | strip_html | strip_newlines | truncate: maxmeta | escape }}' />
+{% endif %}
+{% if page.metafields.ultraseo.keywords %}
+<meta name='keywords' content='{{ page.metafields.ultraseo.keywords | strip_html | strip_newlines | truncate: maxmeta | escape }}' />
+{% endif %}
+{% elsif template == 'index' %}
+{% if shop.metafields.ultraseo.title %}
+<title>{{ shop.metafields.ultraseo.title | strip_html | strip_newlines | truncate: maxmeta | escape }}</title>
+{% endif %}
+{% if shop.metafields.ultraseo.description %}
+<meta name='description' content='{{ shop.metafields.ultraseo.description }}' />
+{% endif %}
+{% if shop.metafields.ultraseo.author %}
+<meta name='author' content='{{ shop.metafields.ultraseo.author }}' />
+{% endif %}
+{% if shop.metafields.ultraseo.keywords %}
+<meta name='keywords' content='{{ shop.metafields.ultraseo.keywords }}' />
+{% endif %}
+{% endif %}
+{% comment %} END ULTRASEO {% endcomment %}

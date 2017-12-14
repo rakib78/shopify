@@ -1,0 +1,95 @@
+<div id="mov-header" class="mobile-menu fix-top">
+<div id="nav-icon1">
+  <span></span>
+  <span></span>
+  <span></span>
+</div>          
+          
+          <a href="{{ shop.url }}" title="{{ shop.name }}" class="mobile_logo logo">
+            {% if section.settings.logo %}
+              <img src="{{ section.settings.logo | img_url: "medium" }}" alt="{{ shop.name }}"  >
+            {% else %}
+              {{ shop.name }}
+            {% endif %}
+          </a>
+          <a href="#cart" class="icon-cart right cart-button"><span {% if cart.item_count == 0 %} class="empty" {% endif %} >{% if cart.item_count != 0 %}{{ cart.item_count }}{% endif %}</span></a>
+  
+        </div>
+<div id="mobile-menu-wrap" >
+  <ul id="mov-nav">
+    <li><a href="/pages/living-alkaline-water-bottle" class="lsp">Shop</a>
+    <ul class="sub-open">
+      <li><a href="/products/dyln-living-alkaline-stainless-steel-water-bottle">
+        <span class="mobn-img"><img src="{{ 'dyln-bottol-tr.png' | asset_img_url: 'compact' }}" height="60"  /></span>
+        DYLN Bottle</a></li>
+      <li class="diff"><a href="/products/extra-vitabead-diffusers">
+        <span class="mobn-img"><img src="{{ 'difuser-tr.png' | asset_img_url: 'compact' }}"  height="60"  /></span>
+        
+        Extra Diffusers</a></li>
+    </ul>
+    </li>
+    <li><a href="/pages/about-dyln-inspired">OUR STORY</a></li>
+    <li class="is-sub"><a href="javascript:void(0)">Community <span class="icon-down-arrow"></span></a> 
+      <ul class="sub-nav">
+        <li><a href="/blogs/y-blog">Y Blog</a></li>
+        <li><a href="/pages/store-locator">Store Locator</a></li>
+        <li><a href="/pages/wholesale">Wholesale</a></li>
+        <li><a href="/pages/dyln-ambassadors">DYLN Ambassadors</a></li>
+        <li><a href="/pages/dyln-jobs">Jobs</a></li>
+      </ul>  
+    </li>
+    <li><a href="/pages/contact-us">CONTACT</a></li>
+    {% if shop.customer_accounts_enabled %}
+    <li class="is-sub"><a href="javascript:void(0)">MY ACCOUNT <span class="icon-down-arrow"></span></a> 
+      <ul class="sub-nav">
+                     {% if customer  %}
+
+                          <li><a href="{{ shop.secure_url }}/account/">
+                       		Dashboard
+                          </a>
+                          </li>
+                          <li><a href="{{ shop.secure_url }}/a/dyln/customers/profile/edit">
+ 							Profile
+                          </a>
+                          </li>
+                          <li><a href="{{ shop.secure_url }}/a/dyln/bottles/registered">
+                          My Bottles
+                          </a>
+                          </li>
+                          <li><a href="{{ shop.secure_url }}/a/dyln/customers/orders">
+                          My Orders
+                          </a>
+                          </li>
+                          <li><a href="{{ shop.secure_url }}/account/addresses">
+                          Address Book
+                          </a>
+                          </li>
+                          <li><a href="{{ shop.secure_url }}/a/dyln/customers/subscription">
+                          Subscriptions
+                          </a>
+                          </li>
+                          <li class="log-out-link"><a href="{{ shop.secure_url }}/account/logout">
+                          Logout
+                          </a>
+                          </li>
+                      {% else %}
+                          <li><a href="{{ shop.secure_url }}/account/register">
+                          Create Account
+                          </a>
+                          </li>
+                          <li><a href="{{ shop.secure_url }}/a/dyln/bottles/register/">
+                          Register Bottle
+                          </a>
+                          </li>
+                          <li class="log-out-link"><a href="{{ shop.secure_url }}/account/login">
+                          Login
+                          </a>
+                          </li>
+
+
+                   {% endif %}       
+      </ul>  
+    </li>
+    {% endif %}
+  </ul>
+</div>        

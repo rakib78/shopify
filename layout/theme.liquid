@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if IE 9 ]><html class="ie ie9" lang="en"> <![endif]-->
+<!--[if (gte IE 10)|!(IE)]><!--><html lang="en"> <!--<![endif]-->
+  <head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="robots" content="index,follow">
+{% comment %} BEGIN ULTRASEO {% endcomment %}
+{% assign maxmeta = 155 %}
+{% if template contains 'product' %}
+{% if product.metafields.ultraseo.title %}
+<title>{{ product.metafields.ultraseo.title | strip_html | strip_newlines | truncate: maxmeta | escape }}</title>
+{% endif %}
+{% if product.metafields.ultraseo.description %}
+<meta name='description' content="{{ product.metafields.ultraseo.description | strip_html | strip_newlines | truncate: maxmeta | escape }}" />
+{% endif %}
+{% if product.metafields.ultraseo.author %}
+<meta name='author' content='{{ product.metafields.ultraseo.author | strip_html | strip_newlines | truncate: maxmeta | escape }}' />
+{% endif %}
+{% if product.metafields.ultraseo.keywords %}
+<meta name='keywords' content='{{ product.metafields.ultraseo.keywords | strip_html | strip_newlines | truncate: maxmeta | escape }}' />
+{% endif %}
+{% elsif template contains 'blog' %}
+{% if blog.metafields.ultraseo.title %}
+<title>{{ blog.metafields.ultraseo.title | strip_html | strip_newlines | truncate: maxmeta | escape }}</title>
+{% endif %}
+{% if blog.metafields.ultraseo.description %}
+<meta name='description' content="{{ blog.metafields.ultraseo.description | strip_html | strip_newlines | truncate: maxmeta | escape }}" />
+{% endif %}
+{% if blog.metafields.ultraseo.author %}
+<meta name='author' content='{{ blog.metafields.ultraseo.author | strip_html | strip_newlines | truncate: maxmeta | escape }}' />
+{% endif %}
+{% if blog.metafields.ultraseo.keywords %}
+<meta name='keywords' content='{{ blog.metafields.ultraseo.keywords | strip_html | strip_newlines | truncate: maxmeta | escape }}' />
+{% endif %}
+{% elsif template contains 'article' %}
+{% if article.metafields.ultraseo.title %}
+<title>{{ article.metafields.ultraseo.title | strip_html | strip_newlines | truncate: maxmeta | escape }}</title>
+{% endif %}
+{% if article.metafields.ultraseo.description %}
+<meta name='description' content="{{ article.metafields.ultraseo.description | strip_html | strip_newlines | truncate: maxmeta | escape }}" />
+{% endif %}
+{% if article.metafields.ultraseo.author %}
+<meta name='author' content='{{ article.metafields.ultraseo.author | strip_html | strip_newlines | truncate: maxmeta | escape }}' />
+{% endif %}
+{% if article.metafields.ultraseo.keywords %}
+<meta name='keywords' content='{{ article.metafields.ultraseo.keywords | strip_html | strip_newlines | truncate: maxmeta | escape }}' />
+{% endif %}
+{% elsif template contains 'collection' %}
+{% if collection.metafields.ultraseo.title %}
+<title>{{ collection.metafields.ultraseo.title | strip_html | strip_newlines | truncate: maxmeta | escape }}</title>
+{% endif %}
+{% if collection.metafields.ultraseo.description %}
+<meta name='description' content="{{ collection.metafields.ultraseo.description | strip_html | strip_newlines | truncate: maxmeta | escape }}" />
+{% endif %}
+{% if collection.metafields.ultraseo.author %}
+<meta name='author' content='{{ collection.metafields.ultraseo.author | strip_html | strip_newlines | truncate: maxmeta | escape }}' />
+{% endif %}
+{% if collection.metafields.ultraseo.keywords %}
+<meta name='keywords' content='{{ collection.metafields.ultraseo.keywords | strip_html | strip_newlines | truncate: maxmeta | escape }}' />
+{% endif %}
+{% elsif template contains 'page' %}
+{% if page.metafields.ultraseo.title %}
+<title>{{ page.metafields.ultraseo.title | strip_html | strip_newlines | truncate: maxmeta | escape }}</title>
+{% endif %}
+{% if page.metafields.ultraseo.description %}
+<meta name='description' content="{{ page.metafields.ultraseo.description | strip_html | strip_newlines | truncate: maxmeta | escape }}" />
+{% endif %}
+{% if page.metafields.ultraseo.author %}
+<meta name='author' content='{{ page.metafields.ultraseo.author | strip_html | strip_newlines | truncate: maxmeta | escape }}' />
+{% endif %}
+{% if page.metafields.ultraseo.keywords %}
+<meta name='keywords' content='{{ page.metafields.ultraseo.keywords | strip_html | strip_newlines | truncate: maxmeta | escape }}' />
+{% endif %}
+{% elsif template == 'index' %}
+{% if shop.metafields.ultraseo.title %}
+<title>{{ shop.metafields.ultraseo.title | strip_html | strip_newlines | truncate: maxmeta | escape }}</title>
+{% endif %}
+{% if shop.metafields.ultraseo.description %}
+<meta name='description' content="{{ shop.metafields.ultraseo.description }}" />
+{% endif %}
+{% if shop.metafields.ultraseo.author %}
+<meta name='author' content='{{ shop.metafields.ultraseo.author }}' />
+{% endif %}
+{% if shop.metafields.ultraseo.keywords %}
+<meta name='keywords' content='{{ shop.metafields.ultraseo.keywords }}' />
+{% endif %}
+{% endif %}
+{% comment %} END ULTRASEO {% endcomment %}
+	{% include 'site-meta' %}
+
+    {% if current_tags %}{% assign meta_tags = current_tags | join: ', ' %}{% endif %}
+    <title>{% if template contains "index" %}{{ page_title }}{% else %}{{ page_title }}{% if current_tags %} {{ 'general.meta.tagged_html' | t: tags: meta_tags }}{% endif %}{% if current_page != 1 %} {{ 'general.meta.page' | t: page_number: current_page }}{% endif %}{% unless page_title contains shop.name %} - {{ shop.name }}{% endunless %}{% endif %}</title>
+
+    {% if page_description %}
+      <meta name="description" content="{{ page_description | escape }}" />
+    {% endif %}
+
+  {% include 'social-meta-tags' %}
+    <!-- Mobile Specific Metas -->
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+  {% if settings.favicon != blank %}
+    <link rel="shortcut icon" href="{{ settings.favicon | img_url: '32x32' }}" type="image/png">
+  {% endif %}
+
+
+ <link rel="stylesheet" type="text/css" href="//cdn-stamped-io.azureedge.net/files/widget.min.css">
+
+
+
+  <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-K877228');</script>
+  <!-- End Google Tag Manager -->
+
+  <!-- Font Awesome Stylesheets -->
+  {{ 'font-awesome.min.css' | asset_url | stylesheet_tag }}
+
+  <!-- Bootstrap Stylesheets -->
+  {{ 'bootstrap.min.css' | asset_url | stylesheet_tag }}
+  {{ 'dataTables.bootstrap.min.css' | asset_url | stylesheet_tag }}
+
+  {{ 'main.scss.css' | asset_url | stylesheet_tag }}
+  {{ 'theme.scss.css' | asset_url | stylesheet_tag }}
+  {{ 'bootstrap-datepicker3.standalone.min.scss.css' | asset_url | stylesheet_tag }}
+  {{ 'styles.scss.css' | asset_url | stylesheet_tag }}
+  {{ 'account.scss.css' | asset_url | stylesheet_tag }}
+
+  {{ 'stamped.scss.css' | asset_url | stylesheet_tag }}
+
+  <script>
+    var theme = {
+      strings: {
+        addToCart: {{ 'products.product.add_to_cart' | t | json }},
+        soldOut: {{ 'products.product.sold_out' | t | json }},
+        unavailable: {{ 'products.product.unavailable' | t | json }},
+        showMore: {{ 'general.filters.show_more' | t | json }},
+        showLess: {{ 'general.filters.show_less' | t | json }}
+      },
+      moneyFormat: {{ shop.money_format | json }}
+    }
+
+    document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
+  </script>
+
+  <!--[if (lte IE 9) ]>{{ 'match-media.min.js' | asset_url | script_tag }}<![endif]-->
+
+  <!-- Vendors -->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+
+  {{ 'jquery.unveil.js'  | asset_url | script_tag }}
+  {{ 'bootstrap.min.js'  | asset_url | script_tag }}
+  {{ "shopify_common.js"  | shopify_asset_url | script_tag }}
+  {{ "customer_area.js"  | shopify_asset_url | script_tag }}
+
+  <!-- Datatables JS -->
+  {{ 'jquery.dataTables.min.js'  | asset_url | script_tag }}
+  {{ 'dataTables.bootstrap.min.js'  | asset_url | script_tag }}
+  {{ 'bootstrap-datepicker.min.js'  | asset_url | script_tag }}
+
+  <!-- Custom Scripts -->
+  {{ "ajax.js"  | asset_url | script_tag }}
+
+  <!--[if (gt IE 9)|!(IE)]><!--><script src="{{ 'vendor.js' | asset_url }}" defer="defer"></script><!--<![endif]-->
+  <!--[if lte IE 9]><script src="{{ 'vendor.js' | asset_url }}"></script><![endif]-->
+
+  <!--[if (gt IE 9)|!(IE)]><!--><script src="{{ 'theme.js' | asset_url }}" defer="defer"></script><!--<![endif]-->
+  <!--[if lte IE 9]><script src="{{ 'theme.js' | asset_url }}"></script><![endif]-->
+
+  {{ content_for_header }}
+
+	<!-- Pinterest Verify -->
+    <meta name="p:domain_verify" content="7660492bafa9e9a0fa198965907f3663"/>
+
+    <!-- Google Site Verification -->
+    <meta name="google-site-verification" content="5R7pYg5-FigAaRCrWHPN9qp4vfITlJ2uX5MBiW12ups" />
+
+    <!-- Unknown -->
+    <meta name="msvalidate.01" content="133A9EA5AC2F2C4371C3F871A7774C72" />
+    <meta name="alexaVerifyID" content="3mQOgEqczmf9Wjb_4jH-3NCzoqU"/>
+    <meta name="p:domain_verify" content="32d327eb0ebeb573e136e931ec868fab"/>
+    <meta name="google-site-verification" content="KDANQwMfFI3ccVuC8mNorY3GradFb332JA11N_lnhz0" />
+    <meta charset="utf-8">
+    <meta http-equiv="cleartype" content="on">
+    <meta name="robots" content="index,follow">
+
+    <!-- Hotjar Tracking Code for www.dyln.co -->
+<script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:346758,hjsv:5};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
+{% if template contains 'index' or template contains 'product' %}
+
+{% else %}
+    {% include 'hull' %}
+    <script src="//cdn.trackduck.com/toolbar/prod/td.js" data-trackduck-id="59b8131d8fc753830a16dc56" async></script>
+{% endif %}
+
+    <!-- Pinterest Tag -->
+<script type="text/javascript"> !function(e){if(!window.pintrk){window.pintrk=function(){window.pintrk.queue.push(Array.prototype.slice.call(arguments))};var n=window.pintrk;n.queue=[],n.version="3.0";var t=document.createElement("script");t.async=!0,t.src=e;var r=document.getElementsByTagName("script")[0];r.parentNode.insertBefore(t,r)}}("https://s.pinimg.com/ct/core.js"); pintrk('load','2614257712972 '); pintrk('page'); </script> <noscript> <img height="1" width="1" style="display:none;" alt="" src="https://ct.pinterest.com/v3/?tid=2614257712972&noscript=1" /> </noscript>
+
+    <!-- Yahoo Gemini Tag -->
+    <script type="application/javascript">(function(w,d,t,r,u){w[u]=w[u]||[];w[u].push({'projectId':'10000','properties':{'pixelId':'10034834'}});var s=d.createElement(t);s.src=r;s.async=true;s.onload=s.onreadystatechange=function(){var y,rs=this.readyState,c=w[u];if(rs&&rs!="complete"&&rs!="loaded"){return}try{y=YAHOO.ywa.I13N.fireBeacon;w[u]=[];w[u].push=function(p){y([p])};y(c)}catch(e){}};var scr=d.getElementsByTagName(t)[0],par=scr.parentNode;par.insertBefore(s,scr)})(window,document,"script","https://s.yimg.com/wi/ytc.js","dotq");</script>
+
+    <!-- Taboola Retargeting Pixel -->
+    <script type="text/javascript">
+    window._tfa = window._tfa || [];
+    _tfa.push({ notify: 'mark',type: 'retargeting' });
+</script>
+<script src="https://connect.facebook.net/en_US/sdk.js"></script>
+<script src="//cdn.taboola.com/libtrc/dylninspired-sc/tfa.js"></script>
+    
+<!--Start of Zendesk Chat Script-->
+<script type="text/javascript">
+window.$zopim||(function(d,s){var z=$zopim=function(c){z._.push(c)},$=z.s=
+d.createElement(s),e=d.getElementsByTagName(s)[0];z.set=function(o){z.set.
+_.push(o)};z._=[];z.set._=[];$.async=!0;$.setAttribute("charset","utf-8");
+$.src="https://v2.zopim.com/?2z3KYJpkXUD9fHcY5TXGVLgfl1TqRMKj";z.t=+new Date;$.
+type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
+</script>
+<!--End of Zendesk Chat Script-->    
+
+</head>
+
+<body class="{{ template | replace: '.', '-' | handle }}  {% if settings.promo_offer_enable %}promo-enable promo-preheader {% endif %} {% if settings.promo_offer_enable_1 %}promo-subheader {% endif %}">
+  <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K877228"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+  <div id="popwrap">
+    <div class="popcontent-wrap">
+      <div class="pop-content">
+        <a href="https://www.dyln.co/products/dyln-living-alkaline-stainless-steel-water-bottle">
+          <span class="img-wrap">
+            <span id="pop-close"><i class="fa fa-window-close" aria-hidden="true"></i></span>
+            <img src="{{ 'Holiday-Shipping-Calendar.png' | asset_img_url: '1000x' }}" alt="ShippingCalender" class="des-ver" >
+            <img src="{{ 'Holiday-Shipping-Calendar_mobile.png' | asset_img_url: '800x' }}" alt="ShippingCalender" class="mob-ver" >
+          </span>  
+        </a>
+      </div>
+    </div>  
+  </div>
+  <!-- End Popup -->   
+  <div id="invisible-overlay"></div>
+  <div class="side-cart-wrapper animated">
+          <form action="/checkout" method="post" id="cart">
+            <ul data-money-format="{{ shop.money_format }}" data-shop-currency="{{ shop.currency }}" data-shop-name="{{ shop.name | escape }}" class="mm-list">
+              <li class="mm-subtitle acat-title"><a class="sidecart-title" href="#cart">Your Cart</a></li>
+			{% if settings.shipping_offer_enable %}
+              <li class="shipping-promo location-us">{{ settings.shipping_offer_text }} </li>
+              <li class="shipping-promo location-other">{{ settings.shipping_offer_text_1 }} </li>
+			{% endif %}
+              {% if cart.item_count == 0 %}
+                <li class="empty_cart">{{ 'layout.general.empty_cart' | t }} <p class="empty-cart-button"><a href="{{ shop.secure_url }}/products/dyln-living-alkaline-stainless-steel-water-bottle" class="btn btn-default">Shop Now</a></p></li>
+              {% else %}
+              {% if settings.cart_offer_enabled %}
+              {% assign offer_price = settings.cart_offer_when | divided_by: 1 %}
+              {% assign pre_price = cart.total_price | divided_by: 100 %}
+              {% assign offer_price_other = settings.cart_offer_when_other | divided_by: 1 %}
+              {% if offer_price <= pre_price %}
+              <li class="cart-offer-extra c-us"><span class="fa fa-check-circle"></span> {{ settings.cart_offer_text }}</li>
+              {% endif %}
+
+
+              {% if offer_price_other <= pre_price %}
+              <li class="cart-offer-extra c-other"><span class="fa fa-check-circle"></span> {{ settings.cart_offer_text_other }}</li>
+              {% endif %}
+
+              {% endif %}
+                {% for item in cart.items %}
+                  <li class="cart_item {% if forloop.last %}last_cart_item{% endif %}">
+                    <p class="mm-counter">
+                      <span class="ss-icon minus">&#x002D;</span><input type="text" min="0" class="quantity" name="updates[]" id="updates_{{ item.id }}" value="{{ item.quantity }}" /><span class="ss-icon plus">&#x002B;</span>
+                    </p>
+                      <span	class="item-wrap">
+                      {% if item.image %}
+                        <div class="cart_image">
+                          <a href="{{ item.url }}">
+                          <img src="{{ item | img_url: '240x' }}" alt="{{ item.title | escape }}" />
+                          </a>
+                         </div>
+                      {% endif %}
+
+                      <div class="item_title" data-url="{{ item.url }}">{{ item.title }}</div>
+
+                      {% if item.product.compare_at_price > item.price %}<s class="c-comp">{{ item.product.compare_at_price | money }}</s>{% endif %}
+                        <strong class="price">{{item.price|money}}</strong>
+                    </span>
+                  </li>
+                {% endfor %}
+                <li class="mm-label">
+                  <p class="mm-counter" main-price="{{cart.total_price }}">{{cart.total_price|money }}</p>
+                  <a href="/cart">
+                    <strong>{{ 'layout.general.subtotal'| t }}</strong>
+                  </a>
+                </li>
+
+                <li class="cart-bottom clearfix"><span	class="item-wrap">
+                  {% if settings.display_special_instructions %}
+                    <textarea id="note" name="note" rows="2" placeholder="{{ 'layout.general.cart_note' | t }}" class="clearfix">{{ cart.note }}</textarea>
+                  {% endif %}
+
+                  {% if settings.display_tos_checkbox %}
+                    <p class="tos">
+                      <input type="checkbox" class="tos_agree" id="sliding_agree" />
+                      <label class="tos_label" for="sliding_agree">
+                        {{ 'cart.general.agree_to_terms_html' | t }}
+                      </label>
+                    </p>
+                  {% endif %}
+
+                  <button class="btn go-cart">
+                    <i class="fa fa-lock" aria-hidden="true"></i> <span class="button-text">{{ 'layout.general.checkout' | t }}</span>
+                  </button>
+
+                  <a href="{{ shop.secure_url }}/products/dyln-living-alkaline-stainless-steel-water-bottle" class="close-cart" id="closeCart">Continue Shopping</a>
+
+                  </span></li>
+              {% endif %}
+            </ul>
+          </form>
+<!-- #Cart testimonial -->
+    {% if settings.enable_cart_tes %}
+    <div class="cart-tes-wrap">
+      <h3 class="cart-tes-title">{{ settings.cart_tes_title }}</h3>
+      <ul class="cart-tes-content-ul">
+        {% if settings.cart_tes_cont1 %}
+        <li>
+          <span class="quote-icon"><svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-quote" viewBox="0 0 41 35"><path d="M10.208 17.711h6.124v16.332H0V21.684C0 8.184 5.444.956 16.332 0v6.125c-4.083 1.14-6.124 4.414-6.124 9.82v1.766zm24.498 0h6.124v16.332H24.498V21.684C24.498 8.184 29.942.956 40.83 0v6.125c-4.083 1.14-6.124 4.414-6.124 9.82v1.766z" fill="#000" fill-rule="evenodd"/></svg></span>
+          <p class="cart-tes-content">{{ settings.cart_tes_cont1 }}</p>
+          <p class="cart-tes-author">--{{ settings.cart_tes_user1 }}</p>
+          <p class="cart-test-rating">
+            <i class="fa fa-star" aria-hidden="true"></i>
+            <i class="fa fa-star" aria-hidden="true"></i>
+            <i class="fa fa-star" aria-hidden="true"></i>
+            <i class="fa fa-star" aria-hidden="true"></i>
+            <i class="fa fa-star" aria-hidden="true"></i>
+		 </p>
+        </li>
+        {% endif %}
+        {% if settings.cart_tes_cont2 %}
+        <li>
+          <span class="quote-icon"><svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-quote" viewBox="0 0 41 35"><path d="M10.208 17.711h6.124v16.332H0V21.684C0 8.184 5.444.956 16.332 0v6.125c-4.083 1.14-6.124 4.414-6.124 9.82v1.766zm24.498 0h6.124v16.332H24.498V21.684C24.498 8.184 29.942.956 40.83 0v6.125c-4.083 1.14-6.124 4.414-6.124 9.82v1.766z" fill="#000" fill-rule="evenodd"/></svg></span>
+          <p class="cart-tes-content">{{ settings.cart_tes_cont2 }}</p>
+          <p class="cart-tes-author">--{{ settings.cart_tes_user2 }}</p>
+          <p class="cart-test-rating">
+            <i class="fa fa-star" aria-hidden="true"></i>
+            <i class="fa fa-star" aria-hidden="true"></i>
+            <i class="fa fa-star" aria-hidden="true"></i>
+            <i class="fa fa-star" aria-hidden="true"></i>
+            <i class="fa fa-star" aria-hidden="true"></i>
+		 </p>
+        </li>
+        {% endif %}
+        {% if settings.cart_tes_cont3 %}
+        <li>
+          <span class="quote-icon"><svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-quote" viewBox="0 0 41 35"><path d="M10.208 17.711h6.124v16.332H0V21.684C0 8.184 5.444.956 16.332 0v6.125c-4.083 1.14-6.124 4.414-6.124 9.82v1.766zm24.498 0h6.124v16.332H24.498V21.684C24.498 8.184 29.942.956 40.83 0v6.125c-4.083 1.14-6.124 4.414-6.124 9.82v1.766z" fill="#000" fill-rule="evenodd"/></svg></span>
+          <p class="cart-tes-content">{{ settings.cart_tes_cont3 }}</p>
+          <p class="cart-tes-author">--{{ settings.cart_tes_user3 }}</p>
+          <p class="cart-test-rating">
+            <i class="fa fa-star" aria-hidden="true"></i>
+            <i class="fa fa-star" aria-hidden="true"></i>
+            <i class="fa fa-star" aria-hidden="true"></i>
+            <i class="fa fa-star" aria-hidden="true"></i>
+            <i class="fa fa-star" aria-hidden="true"></i>
+		 </p>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+    {% endif %}
+  </div>
+<!-- End cart -->
+
+  {% if settings.promo_offer_enable %}
+          <div class="promo_banner" id="promo">
+            <span id="close-promo" ><span class="btn close rounded thick"></span></span>
+            {% if settings.promo_offer_enable_link %}
+            <a href="{{settings.promo_preheader_link}}">
+            {% endif %}
+            <div class="loca loca-us">{{ settings.promo_header_text }}</div>
+            <div class="loca loca-other">{{ settings.promo_header_text_1 }}</div>
+            {% if settings.promo_offer_enable_link %}
+            </a>
+            {% endif %}
+        </div>
+  {% endif %}
+
+  {% section 'header' %}
+
+  <div class="page-container" id="PageContainer">
+
+    {% if settings.promo_offer_enable_1 %}
+    <div id="promo-sub">
+    <div class="promo-sub-test sub-us">
+      <div class="promo-desktop">
+      {{ settings.promo_subheader_text}}
+      </div>
+      <div class="promo-mobile">
+      {{ settings.promo_subheadermob_text}}
+      </div>
+    </div>
+    <div class="promo-sub-test sub-other">
+      <div class="promo-desktop">
+      {{ settings.promo_subheader_text_1}}
+      </div>
+      <div class="promo-mobile">
+      {{ settings.promo_subheadermob_text_1}}
+      </div>
+    </div>
+    </div>
+    {% endif %}
+
+
+    {% if template contains "index" %}
+      {% assign feature_image = true %}
+    {% elsif template contains "collection" or settings.slideshow_collection_enabled %}
+      {% assign feature_image = true %}
+    {% elsif template contains "blog" or settings.slideshow_blog_enabled %}
+      {% assign feature_image = true %}
+    {% elsif template contains "article" or article.image and settings.slideshow_article_enabled %}
+      {% assign feature_image = true %}
+    {% elsif template contains "contact" or settings.slideshow_contact_enabled %}
+      {% assign feature_image = true %}
+    {% elsif template contains "product" %}
+      {% assign feature_image = true %}
+    {% elsif template contains "cart" %}
+      {% assign feature_image = true %}
+    {% else %}
+      {% assign feature_image = false %}
+    {% endif %}
+
+    {% unless feature_image %}
+      {% if template contains 'customers' or 'shopify' %}
+    	{% assign account_page = true %}
+      {% else %}
+    	{% assign account_page = false %}
+      {% endif %}
+    {% endunless %}
+
+    <input type="hidden" id="shop_domain" value="{{ shop.permanent_domain }}" />
+    <main class="main-content" id="MainContent" role="main">
+      {{ content_for_layout }}
+    </main>
+
+    {% section 'footer' %}
+
+  </div>
+
+  <!-- Custom JS -->
+  {{ 'app.js'  | asset_url | script_tag }}
+  {{ 'custom.js' | asset_url | script_tag }}
+  {{ 'custom_customer.js'  | asset_url | script_tag }}
+
+<script type="text/javascript" src="//www.klaviyo.com/media/js/public/klaviyo_subscribe.js"></script>
+ <script type="text/javascript">
+    (function(){
+    // Your JavaScript here
+  KlaviyoSubscribe.attachToForms('#email_signup', {
+    hide_form_on_success: false,
+    success: function ($form) {
+    	$form.find('span.klaviyo_field_group').fadeOut();
+        $form.next('.klaviyo_messages .success_message').fadeIn();
+    }
+
+  });
+      })();
+  </script>
+    {% if settings.disqus_enabled and settings.blog_comment_count %}
+      {% if template contains "blog" or template contains "article" or template contains "index" %}
+        <script id="dsq-count-scr" src="//{{ settings.comment_disqus_user }}.disqus.com/count.js" async></script>
+      {% endif %}
+    {% endif %}
+
+
+
+<!-- Google Code for Remarketing Tag -->
+<div style="height:0px; width:1px; overflow: hidden;  position:absolute; left: -500px">
+<script type="text/javascript">
+/* <![CDATA[ */
+var google_conversion_id = 974233551;
+var google_custom_params = window.google_tag_params;
+var google_remarketing_only = true;
+/* ]]> */
+</script>
+<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+</script>
+<noscript>
+<div style="display:inline;">
+<img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/974233551/?guid=ON&amp;script=0"/>
+</div>
+</noscript>
+</div>
+<!-- BEEKETINGSCRIPT CODE START -->{% include 'bk-tracking' %}<!-- BEEKETINGSCRIPT CODE END -->
+<!-- Klaviyo to track visitors and their activity -->  
+<script type="text/javascript">
+  var _learnq = _learnq || [];
+
+  _learnq.push(['account', 'dDUvqr']);
+
+  (function () {
+  var b = document.createElement('script'); b.type = 'text/javascript'; b.async = true;
+  b.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'a.klaviyo.com/media/js/analytics/analytics.js';
+  var a = document.getElementsByTagName('script')[0]; a.parentNode.insertBefore(b, a);
+  })();
+</script>  
+</body>
+</html>

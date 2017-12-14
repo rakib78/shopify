@@ -1,0 +1,95 @@
+<div class="pscll-wrap text-center">
+  <span class="btn btn-default scl-product">{{ section.settings.purchase_btn_text }}</span>
+</div>
+<div class="product-question-wrap">
+{% if section.settings.image %}
+<div class="qu-section-img">
+  <img class="img-lazy" src="" data-original="{{section.settings.image | img_url: '1600x' }}" alt="{{ section.settings.image_alt }}" >
+</div>  
+{% endif %}   
+  
+  <div class="question-top page-width">
+  {% if section.settings.title != blank %}
+  <h1 class="product-question-title">{{ section.settings.title }}</h1>
+  {% endif %} 
+  <div class="qu-info">
+   {{ section.settings.info }} 
+  </div>  
+  </div>
+
+<div class="qu-boxes grid">
+  {% for block in section.blocks %}
+  {% case block.type %}
+  {% when 'box' %}
+  	<div class="grid__item medium-up--one-third">
+      <div class="qu-box">
+        <h4 class="box-qe-title" data-id="qinfo-{{ block.id }}"><span class="q-icon"></span>{{ block.settings.fe_title }}</h4>
+        <div class="box-qe-info" id="qinfo-{{ block.id }}">{{ block.settings.fe_info }}</div>
+      </div>  
+    </div>
+  {% endcase %}
+  {% endfor %}
+</div>
+  
+  
+  
+</div>  
+{% schema %}
+  {
+    "name": "Product Question",
+    "settings": [
+	{
+	 "type": "text",
+	 "id": "title",
+	 "label": "Title",
+	 "default": "Frequently Asked Questions"
+	},
+	{
+	 "type": "html",
+	 "id": "info",
+	 "label": "Info"
+	},
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Image ALT"
+    },
+	{
+	  "type": "text",
+	  "id": "purchase_btn_text",
+	  "label": "Purchase btn Text",
+	  "default": "PURCHASE"
+	}
+
+    ],
+    "blocks": [
+      {
+        "type": "box",
+        "name": "Add Question",
+		"settings": [
+		  {
+            "type": "text",
+			"id": "fe_title",
+			"label": "Question Title"
+		  },
+		  {
+            "type": "textarea",
+			"id": "fe_info",
+			"label": "Info"
+		  }
+        ]
+      }
+	]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

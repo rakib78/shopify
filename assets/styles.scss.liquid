@@ -1,0 +1,1101 @@
+/**
+ * Dyln: Custom Theme
+ * -------------------
+ *
+ * #Font-Face
+ * #General
+ * #Forms
+ * #Tables
+ * #Account-Page
+ * #Login/Register
+ * #Dashboard
+ * #My Profile
+ * #My Bottles
+ * #My Orders
+ * #Rewards
+ */
+
+/* #Font-Face
+================================================== */
+/*  This is the proper syntax for an @font-face file.
+    Upload your font files to Assets and then
+    copy your FontName into code below and remove
+    comment brackets */
+
+/*  @font-face {
+      font-family: 'FontName';
+      src: url('FontName.eot');
+      src: url('FontName.eot?iefix') format('eot'),
+           url('FontName.woff') format('woff'),
+           url('FontName.ttf') format('truetype'),
+           url('FontName.svg#webfontZam02nTh') format('svg');
+      font-weight: normal;
+      font-style: normal; }
+*/
+@font-face {
+  font-family: 'HelveticaNeueLight';
+  src: url('helveticaneue-light-webfont.eot');
+  src: url('helveticaneue-light-webfont.eot?iefix') format('eot'),
+    url('helveticaneue-light-webfont.woff') format('woff'),
+    url('helveticaneue-light-webfont.ttf') format('truetype'),
+    url('helveticaneue-light-webfont.svg#webfontZam02nTh') format('svg');
+  font-weight: normal;
+  font-style: normal; }
+@font-face {
+  font-family: 'HelveticaNeueMedium';
+  src: url('helveticaneue-medium-webfont.eot');
+  src: url('helveticaneue-medium-webfont.eot?iefix') format('eot'),
+    url('helveticaneue-medium-webfont.woff') format('woff'),
+    url('helveticaneue-medium-webfont.ttf') format('truetype'),
+    url('helveticaneue-medium-webfont.svg#webfontZam02nTh') format('svg');
+  font-weight: normal;
+  font-style: normal; }
+@font-face {
+  font-family: 'HelveticaNeueThin';
+  src: url('helveticaneue-thin-webfont.eot');
+  src: url('helveticaneue-thin-webfont.eot?iefix') format('eot'),
+    url('helveticaneue-thin-webfont.woff') format('woff'),
+    url('helveticaneue-thin-webfont.ttf') format('truetype'),
+    url('helveticaneue-thin-webfont.svg#webfontZam02nTh') format('svg');
+  font-weight: normal;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'NativeLineBlack';
+  src: url('naivelinesansblack-webfont.eot');
+  src: url('naivelinesansblack-webfont.eot?#iefix') format('embedded-opentype'),
+    url('naivelinesansblack-webfont.woff2') format('woff2'),
+    url('naivelinesansblack-webfont.woff') format('woff'),
+    url('naivelinesansblack-webfont.ttf') format('truetype'),
+    url('naivelinesansblack-webfont.svg#naive_line_sansblack') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+    font-family: 'NativeLineBold';
+    src: url('naivelinesansbold-webfont.eot');
+    src: url('naivelinesansbold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('naivelinesansbold-webfont.woff2') format('woff2'),
+         url('naivelinesansbold-webfont.woff') format('woff'),
+         url('naivelinesansbold-webfont.ttf') format('truetype'),
+         url('naivelinesansbold-webfont.svg#naive_line_sansbold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+@font-face {
+    font-family: 'NativeLineExtraBlack';
+    src: url('naivelinesansextrablack-webfont.eot');
+    src: url('naivelinesansextrablack-webfont.eot?#iefix') format('embedded-opentype'),
+         url('naivelinesansextrablack-webfont.woff2') format('woff2'),
+         url('naivelinesansextrablack-webfont.woff') format('woff'),
+         url('naivelinesansextrablack-webfont.ttf') format('truetype'),
+         url('naivelinesansextrablack-webfont.svg#naive_line_sansextra_black') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+@font-face {
+    font-family: 'NativeLineLight';
+    src: url('naivelinesanslight-webfont.eot');
+    src: url('naivelinesanslight-webfont.eot?#iefix') format('embedded-opentype'),
+         url('naivelinesanslight-webfont.woff2') format('woff2'),
+         url('naivelinesanslight-webfont.woff') format('woff'),
+         url('naivelinesanslight-webfont.ttf') format('truetype'),
+         url('naivelinesanslight-webfont.svg#naive_line_sanslight') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+@font-face {
+    font-family: 'NativeLineReular';
+    src: url('naivelinesansregular-webfont.eot');
+    src: url('naivelinesansregular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('naivelinesansregular-webfont.woff2') format('woff2'),
+         url('naivelinesansregular-webfont.woff') format('woff'),
+         url('naivelinesansregular-webfont.ttf') format('truetype'),
+         url('naivelinesansregular-webfont.svg#naive_line_sans_regularRg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+/* #General
+================================================== */
+.text-danger {
+    color: red;
+}
+.clickable {
+  cursor: pointer;
+}
+.pagination {
+  width: 100%;
+}
+.four.columns {
+  display: none;
+}
+#mov-header a.mobile_logo {
+  height: 63px;
+}
+.cart__image-wrapper a {
+  height: 108px;
+}
+.center {
+  text-align: center;
+}
+.text-underline {
+  text-decoration: underline;
+}
+.checkbox-wrap label {
+    cursor: pointer;
+}
+.arrow {
+    display: inline-block;
+    left: 195px;
+    right: 0;
+    top: 50px;
+    bottom: 0;
+    position: absolute;
+    width: 50px;
+    margin: auto;
+
+    img {
+        width: 100%;
+    }
+}
+
+/* #Forms
+================================================== */
+.account-page form {
+    @media screen and (min-width: 768px) {
+        margin: 0 30px;
+    }
+}
+.account-page .bottle-edit {
+  h4 {
+    margin: 5px 0 0;
+  }
+  .control-label.mini {
+    margin: 10px 0 15px;
+  }
+  input[type="text"],
+  input[type="email"],
+  select {
+      border-radius: 100px;
+      text-align: center;
+      border: 1px solid #5f6a7d;
+      padding: 7px 5px 5px;
+  }
+
+  select {
+      text-align: -moz-center;
+      text-align: -webkit-center  !important;
+      text-align-last: center;
+      -ms-text-align-last: center;
+      -moz-text-align-last: center;
+      -webkit-text-align-last: center;
+      text-align: center;
+
+      -moz-appearance: none;
+      -webkit-appearance: none;
+      appearance: none;
+  }
+}
+.account-page .form-control {
+    width: 100%;
+    margin: 5px 0;
+}
+.account-page .errors {
+  	all: unset;
+}
+
+.account-page .signup-wrapper h3 {
+    font-size: 20px;
+    line-height: 35px;
+    margin: 0 auto 10px 0;
+    letter-spacing: 1px;
+}
+.account-page .signup-wrapper p {
+    font-size: 16px;
+}
+.account-page .signup-wrapper .form-wrapper,
+.account-page .signin-wrapper .form-wrapper {
+  	padding: 30px 23px;
+}
+
+/* #Tables
+================================================== */
+.account-page table{ width:100%; }
+.account-page table th{ font-weight:700; background:#f9f9f9; text-align:left }
+.account-page table th,table td{ padding: 10px }
+.account-page table tr:first-child{border-top:1px solid #e8e9eb}
+.account-page table td,table th{border-right:1px solid #DCDCDC}
+.account-page table td:first-child,
+.account-page table th:first-child{border-left:1px solid #DCDCDC}
+.account-page table .em{font-weight:700;}
+.account-page table tr.order_summary td.label { text-align: right;}
+.account-page table { margin-bottom: 20px;}
+.account-page .default-table tr td {
+  	border: none;
+  	padding: 10px;
+}
+.account-page .default-table thead tr th:last-child {
+  	text-align: right;
+    border-right: 1px solid #DCDCDC;
+}
+.account-page .table-bottles-wrap table tr,
+.account-page .table-bottles-wrap table td {
+  	border: none;
+}
+
+/* #Account-Page
+================================================== */
+.account-page {
+	padding-top: 51px;
+}
+.account-page .modal .modal-header .close {
+    font-family: AdelleSans, Helvetica, Arial, sans-serif;
+  	text-transform: uppercase;
+  	padding: 10px 20px;
+}
+.account-page .btn-default:hover {
+	background: none;
+}
+.mm-menu.mm-offcanvas {
+	display: none;
+	position: fixed;
+}
+.account-page .heading-box h3 {
+ 	font-size: 22px;
+  	line-height: 35px;
+}
+.account-page .address_table h4 {
+ 	font-size: 18px;
+    line-height: 32px;
+}
+.account-page .address_table td {
+ 	font-size: 16px;
+    line-height: 18px;
+}
+.account-page label {
+ 	font-size: 13px;
+    line-height: 29px;
+}
+.account-page .dashboard-content h4,
+.account-page .info-content h4 {
+  	font-size: 16px;
+  	line-height: 32px;
+}
+.account-page .info-content p {
+  	font-size: 16px;
+}
+.account-page .content-menu-wrap,
+.account-page h1,
+.account-page h2,
+.account-page h3,
+.account-page h4,
+.account-page h5,
+.account-page h6,
+.account-page label,
+.account-page input,
+.account-page p,
+.account-page a,
+.account-page th,
+.account-page td {
+    font-family: AdelleSans, Helvetica, Arial, sans-serif;
+}
+.account-page .content-menu-wrap,
+.account-page a,
+.account-page th,
+#bottles-list {
+ 	font-size: 16px;
+  	line-height: 29px;
+}
+.account-page .note {
+    border: none;
+    padding: 0;
+}
+
+.modal-open .modal-backdrop {
+  	z-index: -1;
+}
+.modal-open .big-header.header.fix-top {
+	z-index: 0;
+}
+
+.account-page select {
+    background: url(//cdn.shopify.com/s/files/1/0511/9421/t/38/assets/select.png?16315000037274215842) no-repeat right,#fff;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border-radius: 3px;
+    border: 1px solid #d9dbdc;
+    -webkit-appearance: none;
+    -ms-appearance: none;
+    -moz-appearance: none;
+    -o-appearance: none;
+    appearance: none;
+    padding: 10px 9px 8px;
+    -moz-appearance: none;
+    text-indent: 0.01px;
+    text-overflow: '';
+
+    &:disabled {
+        background: #FFF;
+    }
+}
+
+.account-page .product-button-wrap {
+    display: block;
+    width: 100%;
+    padding: 20px 0;
+    overflow: hidden;
+}
+.account-page .product-button-wrap input,
+.account-page .product-button-wrap button {
+    display: inline-block;
+    width: auto;
+}
+.account-page .product-button-wrap .qty-wrap {
+    display: inline-block;
+    margin: 0 10px;
+}
+.account-page .product-button-wrap .qty-wrap input.product-form__input {
+    width: 46px;
+    border-radius: 10px;
+    height: 46px;
+    display: inline-block;
+    margin: 0 10px;
+    font-size: 20px;
+    padding: 0;
+    text-align: center;
+    border: 1px solid #666;
+    font-family: AdelleSans, Helvetica, Arial, sans-serif;
+    color: #5f6a6d;
+}
+
+
+/* #Login/Register
+================================================== */
+div[kind="facebook"],
+div[kind="google"] {
+  border-radius: 30px;
+}
+#recover-password .form-inner .heading-form h3,
+#create_customer .heading-form.acc h3,
+#login_form .heading-form.acc h3 {
+  	font-size: 20px;
+  	line-height: 35px;
+ 	margin-bottom: 10px;
+    letter-spacing: 1px;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+}
+#recover-password .form-inner .centered {
+  	margin-top: 2px;
+}
+#recover-password .form-inner .note {
+  font-size: 16px;
+  border: none;
+  padding: 0;
+}
+#recover-password .form-inner .heading-form p,
+#create_customer .heading-form.acc p,
+#login_form .heading-form.acc p {
+    font-size: 16px;
+    line-height: 20px;
+    margin: 0 0 15px;
+    font-style: normal;
+    margin-bottom: 25px;
+    font-stretch: normal;
+    font-weight: normal;
+}
+#create_customer,
+#customer_login {
+  text-align: center;
+}
+#login_form .large_form {
+  margin: 10px 0;
+}
+#create_customer .errors,
+#customer_login .errors{
+  all: unset;
+}
+#create_customer .form-inner input {
+  width: 100%;
+  margin: 10px 0;
+}
+#create_customer .form-init input[type="email"],
+#create_customer .form-init input[type="password"],
+#login_form .form-init input[type="email"],
+#login_form .form-init input[type="password"]{
+  	width: 100%;
+}
+#recover-email input {
+  width: 100%;
+}
+#recover-email {
+  width: 100%;
+  margin-bottom: 15px;
+}
+#create_customer .action_button,
+#recover-password .form-inner .action_button,
+#login_form .action_button {
+    padding: 9px 67px 6px;
+    font-size: 16px;
+    letter-spacing: 0;
+}
+
+
+/* #Dashboard
+================================================== */
+#recent-orders {
+  padding: 0 10px;
+
+  @media screen and (max-width: 768px) {
+    &.dashboard-box-wrapper {
+      padding: 10px 10px 5px;
+
+      .heading-box {
+        margin-top: 5px;
+      }
+    }
+  }
+}
+.bottle-box {
+  &.register-bottle {
+      padding-top: 65px;
+
+      .progress-radial {
+          background-image: linear-gradient(90deg, #808080 100%, transparent 50%, transparent),linear-gradient(90deg, #00aedb 50%, #e8e6e7 50%, #e8e6e7);
+
+          .overlay.large-plus  {
+            color: #808080;
+          }
+      }
+
+      @media screen and (max-width: 768px) {
+        padding: 30px 0;
+      }
+      @media screen and (max-width: 580px) {
+        min-height: 250px;
+      }
+      .register-text {
+          color: #808080;
+          padding-top: 10px;
+      }
+      #reg {
+          background: #808080 !important;
+      }
+  }
+  .bottle-name {
+    font-weight: 600;
+    font-size: 20px;
+    margin-bottom: 5px;
+    color: #5d5d5d;
+  }
+}
+#my-inspirations-box {
+  height: 305px;
+  padding: 15px;
+
+  .heading-box {
+    margin-top: 5px;
+  }
+  @media screen and (max-width: 768px) {
+    .heading-box {
+      margin-top: 5px;
+    }
+    &.dashboard-box-wrapper {
+      min-height: 130px;
+      height: auto;
+    }
+  }
+}
+#my-interests-box {
+    min-height: 142px;
+
+    @media screen and (min-width: 768px) {
+        min-height: 242px;
+    }
+}
+#purchase-diffuser-modal {
+  .custom-modal {
+    .modal-header {
+      padding-top: 10px;
+    }
+    .modal-body {
+      padding-bottom: 0;
+    }
+  }
+}
+
+
+/* #My Profile
+================================================== */
+#profile-completeness {
+  padding: 10px 0 5px;
+  width: 100%;
+
+  .progress-content {
+    padding-bottom: 10px;
+
+    @media screen and (max-width: 768px) {
+      padding-bottom: 5px;
+    }
+  }
+}
+.gender-block label.selection.selected,
+#edit-address-form label.selected {
+    background: #01addb;
+    color: #FFF;
+}
+#my-profile-box {
+  height: 100%;
+
+  &.dashboard-box-wrapper {
+    height: 390px;
+    margin-bottom: 15px;
+  }
+  .profile-display {
+    margin-top: 50px;
+
+    @media screen and (max-width: 768px) {
+      margin-top: 15px;
+    }
+  }
+  .upload-btn {
+    position: absolute;
+
+    button {
+      background: #00addb;
+      font-size: 26px;
+      padding: 0 10px 26px;
+      width: 35px;
+      height: 34px;
+      bottom: 35px;
+      left: 105px;
+      text-align: center;
+      position: relative;
+    }
+  }
+}
+#profile-image-modal {
+  .profile-image-form {
+    padding: 15px 0 0;
+    margin-bottom: 0;
+    background: #FFF;
+
+    .selection {
+        &.selected {
+            border: 5px solid #00addb;
+        }
+        input {
+            visibility: hidden;
+        }
+    }
+    .profile-img {
+        display: inline-block;
+        margin: 5px;
+    }
+  }
+}
+
+/* #My Bottles
+================================================== */
+#update-bottle-modal {
+  .modal-content {
+    padding: 15px;
+  }
+}
+#bottle-info {
+  .modal-content {
+    padding: 0px;
+  }
+  .title-separator {
+    background: #F5F5F5;
+    padding-top: 5px;
+
+    span {
+      color: #000;
+      font-weight: 700; 
+    }
+  }
+  .info-box {
+    padding: 15px 0;
+
+    h3 {
+      font-size: 1.5em;
+      font-weight: 700;
+      margin: 0;
+      height: 65px;
+      padding: 5px 10px 10px;
+
+      @media screen and (max-width: 414px) {
+        font-size: 11px;
+        padding-top: 15px;
+      }
+    }
+    p {
+      margin: 0;
+      color: #888
+    }
+    .value {
+      font-weight: bold;
+    }
+    .row {
+      margin: 0;
+    }
+    .progress-content {
+      padding-bottom: 10px;
+
+      .progress-title {
+        .content-txt {
+          color: #888;
+          text-align: left;
+          width: 80%;
+
+          span {
+            color: #00aedb;
+          }
+        }
+      }
+      .progress {
+        width: 80%;
+        border: none;
+        height: 10px;
+        
+        .progress-bar {
+          background: #14b5f3;
+        }
+      }
+    }
+  }
+  .diffuser-info {
+    .diffuser-refills-remaining,
+    .diffuser-days-remaining {
+      font-size: 2.5em;
+      padding-top: 15px;
+      letter-spacing: 0;
+
+      @media screen and (max-width: 414px) {
+        font-size: 1.5em;
+      }
+    }
+    .col-start-date {
+      @media screen and (max-width: 375px) {
+        padding: 0;
+      }
+    }
+  }
+  .purchase-info {
+    .col-bottle-finish {
+      @media screen and (max-width: 320px) {
+        padding-right: 0;
+      }
+    }
+    .col-bottle-code {
+      @media screen and (max-width: 320px) {
+        padding: 0;
+      }
+    }
+    .col-bottle-finish {
+      @media screen and (max-width: 320px) {
+        padding-left: 25px;
+        padding-right: 5px;
+      }
+    }
+    .purchase-location {
+      margin: 10px 0 30px;
+    }
+    .bottle-code-preview {
+      .outer-shell-preview {
+        background: #f7f7f7;
+        position: relative;
+
+        .inner-shell-preview {
+          background: #EEE;
+          background: -webkit-radial-gradient(#fdf9f9, #e0dbdb); /* Safari 5.1 to 6.0 */
+          background: -o-radial-gradient(#fdf9f9, #e0dbdb); /* For Opera 11.6 to 12.0 */
+          background: -moz-radial-gradient(#fdf9f9, #e0dbdb); /* For Firefox 3.6 to 15 */
+          background: radial-gradient(#fdf9f9, #e0dbdb); /* Standard syntax */
+          bottom: 0;
+          left: 0;
+          right: 0;
+          margin: auto;
+          border-radius: 100px;
+          position: absolute;
+          top: 0;    width: 90px;
+          height: 90px;
+
+          .bottle-code {
+            font-weight: 700;
+            font-size: 20px;
+          }
+          p {
+            margin: 0;
+            font-size: 12px;
+            padding-top: 30px;
+          }
+          * {
+            color: #949494;
+          }
+        }
+      }
+    }
+    .bottle-sleeve-preview {
+      img {
+        border-radius: 0;
+      }
+    }
+    .preview {
+      width: 110px;
+      height: 110px;
+      border-radius: 100px;
+      margin: 0 auto 10px;
+
+      @media screen and (max-width: 415px) {
+        width: 95px;
+        height: 95px;
+      }
+      @media screen and (max-width: 375px) {
+        height: 85px;
+      }
+      @media screen and (max-width: 320px) {
+        height: 65px;
+        margin-bottom: 20px;
+      }
+    }
+  }
+  .bottle-preview {
+    padding: 0;
+    overflow: hidden;
+    position: relative;
+    background: #ECECEC;
+
+    .bottle-title {
+      text-align: center;
+      height: 200px;
+      padding-top: 40px;
+      position: relative;
+
+      h1, h3 {
+        margin: 0;
+        font-weight: 600;
+      }
+      .bottle-name {
+        color: #000;
+      }
+      .replace-diffuser-notif {
+        background: #fd3c44;
+        color: white;
+        font-weight: 600;
+        font-size: 15px;
+        padding: 5px 15px;
+        border-radius: 10px;
+        width: 200px;
+        margin: 35px auto 0;
+      }
+    }
+    .bottle-img {
+      position: absolute;
+
+      &.bg {
+        width: 450px;
+        right: -235px;
+        top: -240px;
+        opacity: 0.3;
+
+        @media screen and (max-width: 414px) {
+          width: 250px;
+          right: -130px;
+          top: -115px;
+        }
+      }
+      &.thumbnail {
+        width: 180px;
+        left: -25px;
+        top: 5px;
+
+        @media screen and (max-width: 414px) {
+          width: 150px;
+          left: -20px;
+        }
+      }
+    }
+  }
+}
+#id_purchase_location {
+  width: 65%;
+}
+#sleeve_color_selection,
+#finish_selection {
+  img {
+    width: 13%;
+    height: 15%;
+
+    @media screen and (max-width: 768px) {
+      width: 25%;
+    }
+  }
+}
+#congratulations-popup {
+    .bottle-done .bottle-mark {
+        margin-top: 15px;
+    }
+}
+#account_details {
+  .page-name {
+    width: 98%;
+    margin: auto;
+  }
+  .add-address-btn {
+    @media screen and (min-width: 769px) {
+      margin-top: -15px;
+    }
+  }
+  .table-bottle-det {
+    td {
+      text-align: center;
+    }
+  }
+  .rewards-box-points {
+    height: 280px;
+  }
+  .boxes-wrap {
+    margin: 0;
+  }
+  #user-interest {
+    height: 348px;
+  }
+}
+#my-profile-box {
+  #user-interest {
+    padding-left: 5px;
+
+    @media screen and (max-width: 768px) {
+      height: 100%;
+      padding-bottom: 10px;
+
+      .heading-box {
+        margin-top: 15px;
+      }
+    }
+  }
+}
+#replace-diffuser-form {
+    .refill_start_date_error {
+        position: relative;
+        width: 100%;
+        padding-left: 0px;
+        padding-right: 0px;
+        left: 0px;
+        right: 0px;
+    }
+}
+#bottles-list {
+  .row-action {
+      padding-right: 250px;
+  }
+  .dropdown {
+      display: block;
+      width: 100%;
+  }
+  .dropdown-menu {
+      right: 70px;
+  }
+  .btn-replacement-small {
+      height: 38px !important;
+      width: 155px;
+      background-color: #f3514c;
+      border-color: #d43f3a;
+      padding: 5px 10px;
+      border-radius: 3px;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      display: inline-block;
+      vertical-align: middle;
+      margin-left: 10px;
+      display: inline-block;
+      border-radius: 3px;
+  }
+  .dropdown {
+    .dropdown-toggle {
+        background-color: transparent;
+    }
+  }
+  .product-info-wrap {
+      border: 2px solid #00aedb;
+      border-radius: 20px;
+      font-family: AdelleSans;
+      padding: 10px 15px;
+  }
+}
+#register-bottle-form {
+  .bottle-sleeve-preview {
+    width: 13%;
+    height: 15%;
+  
+    @media screen and (max-width: 768px) {
+      width: 25%;
+    }
+  }
+  .sleeve-selection {
+    img {
+      height: auto;
+    }
+  }
+  #id_code {
+    text-transform: uppercase;
+  }
+  @media screen and (max-width: 768px) {
+    .box-wrapper {
+      padding-top: 30px;
+    }
+  }
+  .form-colors label {
+    border: none;
+    border-radius: 0;
+
+    &.selection.selected {
+      background: none;
+      color: #FFF;
+      border: 1px solid #00aedb;
+    }
+    img {
+      position: absolute;
+      top: 0;
+      width: 100px;
+      margin: auto;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+  }
+  .bottle-code {
+    width: 180px;
+    margin: auto;
+
+    @media screen and (min-width: 768px) {
+      width: 100%;
+    }
+  }
+  .selection {
+    &.selected {
+      background: #00aedb;
+      color: #FFF;
+      border: 1px solid #00aedb;
+    }
+  }
+  .tab-pane {
+    display: none;
+    &.in.active {
+      display: block;
+    }
+  }
+  .box-wrapper {
+    padding: 25px 10px;
+
+    @media screen and (max-width: 768px) {
+      padding: 0 10px 15px;
+    }
+  }
+}
+
+
+/* #My Orders
+================================================== */
+.my-orders {
+  .order-left {
+    .ord-tags {
+      span {
+        padding: 2px 6px;
+      }
+      a {
+        cursor: pointer;
+        font-size: 12px;
+      }
+    }
+  }
+}
+
+
+/* #Rewards
+================================================== */
+#rewards-modal {
+  .rewards-modal-content {
+    width: 100%;
+    margin: auto;
+
+    .progress-block {
+      width: 100%;
+    }
+  }
+}
+#referrals-list {
+  .progress-bar {
+    .logo {
+      right: -20px;
+    }
+  }
+}
+.rewards-page {
+    margin: 0 350px;
+
+    .splash-img {
+        width: 580px;
+        position: relative;
+
+        img {
+            width: 100%;
+        }
+    }
+    .splash-message {
+        text-align: center;
+        width: 400px;
+        position: absolute;
+        top: 175px;
+        right: -80px;
+
+        .want-free-dyln {
+            width: 300px;
+            margin-left: auto;
+            margin-right: 70px;
+
+            img {
+                width: 100%;
+            }
+        }
+        h1 {
+            margin: 0;
+            padding: 0 80px;
+          	line-height: 35px;
+        }
+        .btn {
+            font-size: 15px;
+            font-weight: bold;
+            letter-spacing: 0;
+            padding: 10px 5px;
+            margin: 25px auto;
+            display: block;
+            width: 345px;
+        }
+        small {
+            font-size: 15px;
+            color: #00aedb;
+
+          	br {
+              content: ' ';
+              display: block;
+              margin: -5px 0;
+            }
+            a {
+                text-decoration: underline;
+                line-height: 0;
+                font-size: 15px;
+            }
+        }
+    }
+}

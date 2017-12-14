@@ -1,0 +1,235 @@
+<div class="blog-sidebar-setion">
+  <div class="sidebar-wrap">
+    {% for block in section.blocks %}
+    	{% case block.type %}
+    	  {% when 'search' %}
+    		<div class="search-box sidebar-area">
+              <form action="/search" method="get" class="sidebar-search" role="search">
+                <input class="search-header__input search__input"
+                  type="search"
+                  name="q"
+                  placeholder="{{ 'general.search.placeholder' | t }}"
+                  aria-label="{{ 'general.search.placeholder' | t }}">
+                  {% include 'icon-search' %}
+                  <span class="icon__fallback-text">{{ 'general.search.submit' | t }}</span>
+              </form>              
+    		</div>
+    	  {% when 'newsletter' %}
+    	  <div class="sidebar-area sidebar-{{ block.type }}">
+            {% if block.settings.sidebar_title != blank %}
+            <h3 class="sidebar-title">{{ block.settings.sidebar_title }}</h3>
+            {% endif  %}
+            {% if block.settings.sidebar_subtitle != blank %}
+            <p class="sidebar-subtitle">{{block.settings.sidebar_subtitle}}</p>
+            {% endif %}
+            <div class="sidebar-content">
+            	{% if block.settings.enable_custom_form %}
+              
+              		{{ block.settings.custom_form }}
+              
+              	{% else %}
+           {% form 'customer' %}
+              {{ form.errors | default_errors }}
+              {% if form.posted_successfully? %}
+                <p class="form--success">{{ 'general.newsletter_form.confirmation' | t }}</p>
+              {% else %}
+                <div class="input-group">
+                  <input type="hidden" name="contact[tags]" value="newsletter">
+                  {% if block.settings.enable_name %}
+                    <input type="text" class="input-full" name="contact[f-name]" placeholder="First Name" >
+  				  {% endif %}
+                  <input type="email"
+                    name="contact[email]"
+                    id="Email"
+                    class="input-full"
+                    value="{% if customer %}{{ customer.email }}{% endif %}"
+                    placeholder="{{ 'general.newsletter_form.email_placeholder' | t }}"
+                    autocorrect="off"
+                    autocapitalize="off">
+                  
+				 <input type="submit" class="input-full" id="newsletter-subscribe" name="subscribr" value="Subscribe" >	
+                  
+                  
+                </div>
+              {% endif %}
+            {% endform %} 
+              
+              	{% endif %}
+              	
+                
+            </div>
+            
+          </div>
+        {% when 'post' %}
+         {%- assign blog = blogs[block.settings.blog] -%}
+    	  <div class="sidebar-area sidebar-{{ block.type }}">
+            {% if block.settings.sidebar_title != blank %}
+            <h3 class="sidebar-title">{{ block.settings.sidebar_title }}</h3>
+            {% endif  %}
+            <div class="sidebar-content">
+              {% unless blog.empty? %}
+              <ul class="post-list">
+                {% for article in blog.articles limit: block.settings.post_limit %}
+                <li><a href="{{ article.url }}">{{ article.title }}</a></li>
+                {% endfor %}
+                
+              </ul> 
+              {% endunless %}
+            </div>  
+    	  </div>
+        {% when 'cat' %}
+    	  <div class="sidebar-area sidebar-{{ block.type }}">
+            {% if block.settings.sidebar_title != blank %}
+            <h3 class="sidebar-title">{{ block.settings.sidebar_title}}</h3>
+            {% endif  %}
+            <div class="sidebar-content">
+ 
+              <ul class="post-list">
+                {% for tag in blog.all_tags %}
+                <li><a href="{{ blog.url }}/tagged/{{ tag | handle }}" class="article__grid-tag">{{ tag }}</a></li>
+                {% endfor %}                
+              </ul> 
+
+            </div>  
+    	  </div>     
+
+        {% when 'custom' %}
+    	  <div class="sidebar-area sidebar-{{ block.type }}">
+            {% if block.settings.sidebar_title != blank %}
+            <h3 class="sidebar-title">{{ block.settings.sidebar_title }}</h3>
+            {% endif  %}
+            <div class="sidebar-content">
+ 				{{ block.settings.custom_html }}
+            </div>  
+    	  </div>     
+    	 
+    	{% endcase %}
+    {% endfor %}
+  </div>  
+</div>  
+{% schema %}
+  {
+    "name": "Blog Sidebar",
+    "settings": [
+ 
+	 ],
+   "blocks": [
+		{
+		"type": "search",
+		"name": "Search box",
+		"settings":[
+		]
+
+		},
+		{
+		"type": "newsletter",
+		"name": "Subscribe box",
+		"settings":[
+			{
+			  "type": "text",
+			  "id": "sidebar_title",
+			  "label": "Title",
+			  "default": "Subscribe"
+			},
+			{
+			  "type": "text",
+			  "id": "sidebar_subtitle",
+			  "label": "Content",
+			  "default": "Sign up to get the latest on sales, new releases and more …"
+			},
+			{
+			  "type": "checkbox",
+			  "id": "enable_name",
+			  "default": false,
+			  "label": "Enable Name Field"
+			},
+			{
+			  "type": "checkbox",
+			  "id": "enable_custom_form",
+			  "default": false,
+			  "label": "Custom Subscribe Form"
+			},
+			{
+			  "type": "html",
+			  "id": "custom_form",
+			  "label": "Custom Form Code"
+			}
+		]
+		},
+		{
+		  "type": "post",
+		  "name": "Latest Post",
+		  "settings": [
+			{
+			"type": "text",
+			"id": "sidebar_title",
+			"label": "Title",
+			"default": "Recent Articles"
+			},
+            {
+              "id": "blog",
+              "type": "blog",
+              "label": "Select Blog"
+            },
+			{
+			  "type": "text",
+			  "id": "post_limit",
+			  "label": "Number Of Post",
+			  "default": "6"
+			}
+		  ]
+		},
+		{
+		  "type": "cat",
+		  "name": "Categories",
+		  "settings": [
+			{
+			"type": "text",
+			"id": "sidebar_title",
+			"label": "Title",
+			"default": "Recent Articles"
+			}
+		  ]
+		},
+		{
+		  "type": "custom",
+		  "name": "Custom Html",
+		  "settings": [
+			{
+			"type": "text",
+			"id": "sidebar_title",
+			"label": "Title",
+			"default": "Title"
+			},
+            {
+              "id": "custom_html",
+              "type": "html",
+              "label": "Custom Html"
+            }
+		  ]
+		}
+	],
+    "presets": [
+      {
+        "name": "Blog Sidebar",
+        "blocks": [
+          {
+            "type": "search"
+          },
+          {
+            "type": "newsletter"
+          },
+          {
+            "type": "post"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

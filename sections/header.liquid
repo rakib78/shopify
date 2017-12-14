@@ -1,0 +1,473 @@
+{% include 'mobile-menu' %} 
+<meta property="og:image" content="https://cdn.shopify.com/s/files/1/0511/9421/files/DYLN-FAQ.jpg" />
+<div class="big-header header fix-top">
+          <div class="container">
+            {% if section.settings.align_logo == "center" %}
+			{% include 'main-menu' %}
+			{% include 'logo' %}
+            {% else %}
+			{% include 'logo' %}
+			{% include 'main-menu' %}
+			{% endif %}
+            <!-- currencies  -->
+              <ul class="menu-right">
+               {% for block in section.blocks %}
+                {% case block.type %}
+                {% when 'link' %}
+                <li><a href="{{block.settings.right_link_url}}"><span class="{% if block.settings.right_link_style == 'button' %} btn btn-default header-button{% endif %}">{{block.settings.right_link_title}}</span></a></li>
+                {% endcase %}
+               {% endfor %}
+                {% if settings.show_multiple_currencies %}
+                  <li class="currencies">
+                    {% include 'currencies-switcher' %}
+                  </li>
+                {% endif %}
+				{% if shop.customer_accounts_enabled %}
+                  <li>
+                    <a href="#" class="sub-menu">My Account <span class="icon-down-arrow"></span></a>
+                    {% if customer  %}
+						<div class="dropdown animated fadeIn">
+                        <div class="dropdown_links clearfix">
+                          <ul>
+                          <li><a href="{{ shop.secure_url }}/account/">
+                          <span class="menu-img"><img src="{{ 'Dashboard.png' | asset_img_url: 'compact' }}"  /></span>
+                          Dashboard
+                          </a>
+                          </li>
+                          <li><a href="{{ shop.secure_url }}/a/dyln/customers/profile/edit">
+                          <span class="menu-img"><img src="{{ 'Profile.png' | asset_img_url: 'compact' }}"  /></span>
+                          Profile
+                          </a>
+                          </li>
+                          <li><a href="{{ shop.secure_url }}/a/dyln/bottles/registered">
+                          <span class="menu-img"><img  src="{{ 'Register-Bottle.png' | asset_img_url: 'compact' }}" /></span>
+                          My Bottles
+                          </a>
+                          </li>
+                          <li><a href="{{ shop.secure_url }}/a/dyln/customers/orders">
+                          <span class="menu-img"><img src="{{ 'My-Orders.png' | asset_img_url: 'compact' }}"  /></span>
+                          My Orders
+                          </a>
+                          </li>
+                          <li><a href="{{ shop.secure_url }}/a/dyln/customers/subscription">
+                          <span class="menu-img"><img src="{{ 'Reward-icon.png' | asset_img_url: 'compact' }}"  /></span>
+                          Rewards
+                          </a>
+                          </li>
+                          <li class="log-out-link"><a href="{{ shop.secure_url }}/account/logout">
+                          <span class="menu-img"><img src="{{ 'Logout.png' | asset_img_url: 'compact' }}"  /></span>
+                          Logout
+                          </a>
+                          </li>
+                          </ul>
+                        </div>
+                      </div>
+                      {% else %}
+						<div class="dropdown animated fadeIn">
+                        <div class="dropdown_links clearfix">
+                          <ul>
+                          <li><a href="{{ shop.secure_url }}/account/register">
+                          <span class="menu-img"><img src="{{ 'Create-Account.png' | asset_img_url: 'compact' }}"  /></span>
+                          Create Account
+                          </a>
+                          </li>
+                          <li><a href="{{ shop.secure_url }}/a/dyln/bottles/register/">
+                          <span class="menu-img"><img src="{{ 'Register-Bottle.png' | asset_img_url: 'compact' }}"  /></span>
+                          Register Bottle
+                          </a>
+                          </li>
+                          <li class="log-out-link"><a href="{{ shop.secure_url }}/account/login">
+                          <span class="menu-img"><img src="{{ 'Login.png' | asset_img_url: 'compact' }}"  /></span>
+                          Login
+                          </a>
+                          </li>
+                          </ul>
+                        </div>
+                      </div>
+
+
+                   {% endif %}
+                  </li>
+{% endif %}
+                <li class="cart">
+                  <a href="#cart" class="icon-cart cart-button"><span {% if cart.item_count == 0 %} class="empty" {% endif %}>{% if cart.item_count != 0 %}{{ cart.item_count }}{% endif %}</span></a>
+                </li>
+              </ul>
+
+            </div>
+          <div class="section-clear"></div>
+          </div>
+
+{% assign shadow_color = "#000" %}
+{% assign s_opacity = 0.33 %}
+{% capture s_opacity %}{{ section.settings.header_shadow_opacity }}{% endcapture %}
+{% capture shadow_color %}{{ section.settings.header_shadow_color }}{% endcapture %}
+
+<style type="text/css">
+
+.big-header, #mov-header{
+background:  {{ section.settings.header_bg }} ;
+-webkit-box-shadow: 0 0 10px 0  rgba({{ shadow_color | color_extract: 'red'  }}
+  ,{{ shadow_color | color_extract: 'blue'  }}, {{ shadow_color | color_extract: 'green'  }}, {{ s_opacity }}  );
+box-shadow: 0 0 10px 0  rgba({{ shadow_color | color_extract: 'red'  }}
+  ,{{ shadow_color | color_extract: 'blue'  }}, {{ shadow_color | color_extract: 'green'  }}, {{ s_opacity }}  );
+}
+
+#main-menu li a, .menu-right li a {
+  line-height:  {{ section.settings.logo_max_height }}px;
+  display: inline-block;
+  text-transform: {{ section.settings.menu_font_text_transform }};
+
+}
+.menu-right li a span.header-button{
+  line-height: normal;
+  font-size: {{ section.settings.menu_button_size }}px;
+}
+#main-menu li a{
+  padding-right: {{ section.settings.menu_padding }}px
+}
+
+.menu-right li a{
+  padding-left: {{ section.settings.menu_padding }}px
+}
+
+.big-header li, #mov-header{
+  font-family: {{ section.settings.type_menu_family }};
+  font-weight: {{ section.settings.menu_font_weight }}
+}
+.big-header li a,
+#mov-header a
+ {
+  font-size:{{ section.settings.menu_font_size }}px;
+  color: {{ section.settings.menu_font_color }};
+
+}
+.big-header li a:hover,
+#mov-header li a:hover,
+.big-header .dropdown li a  {
+  color: {{ section.settings.menu_font_hcolor }}
+}
+.big-header .dropdown li a{
+  font-size: {{ section.settings.menud_font_size}}px;
+  color: {{ section.settings.menu_font_hcolor }};
+}
+.big-header .top-logo img{
+  max-height: {{ section.settings.logo_max_height }}px;
+}
+.big-header .dropdown li a:hover {
+  color: {{ section.settings.menu_font_color }};
+}
+
+/* cart icon size
+============================= */
+
+.big-header li.cart a.icon-cart{
+  font-size: {{ section.settings.cart_icon_size_desk }}px
+}
+
+#mov-header a.icon-cart {
+  font-size: {{ section.settings.cart_icon_size_mob}}px
+}
+
+/* Big screen
+===================================================== */
+@media screen and (max-width: 1360px){
+   #main-menu li a, .menu-right li a{
+      font-size: 16px;
+    }
+
+.menu-right li a span.header-button{
+  line-height: normal;
+  font-size: 16px;
+}
+
+}
+
+
+
+/* display small header
+======================================= */
+@media screen and (max-width: 880px) and ( min-width:{{ section.settings.menu_break_point | plus: 1 }}px ) {
+      #main-menu li a, .menu-right li a{
+      font-size: 14px;
+    }
+#main-menu li a{
+  padding-right: {{ section.settings.menu_padding | minus: 6 }}px
+}
+
+.menu-right li a{
+  padding-left: {{ section.settings.menu_padding | minus: 6 }}px
+}
+
+.menu-right li a span.header-button{
+  line-height: normal;
+  font-size: 14px;
+}
+}
+
+  @media screen and ( max-width:{{ section.settings.menu_break_point }}px ){
+    .big-header{ display: none; }
+    #mov-header{ display: block; }
+    #PageContainer { padding-top: 60px; }
+}
+
+
+</style>
+
+{% schema %}
+  {
+    "name": "Header",
+    "settings": [
+      {
+        "type": "radio",
+        "id": "align_logo",
+        "label": "Logo alignment",
+        "default": "center",
+        "options": [
+          {"value": "center", "label": "Centered"},
+          {"value": "left", "label": "Left"}
+        ]
+      },
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo image"
+      },
+      {
+        "type": "text",
+        "id": "logo_max_height",
+        "label": "Custom logo height (in pixels)",
+        "default": "50"
+      },
+      {
+        "type": "link_list",
+        "id": "main_linklist",
+        "label": "Menu",
+        "default": "main-menu"
+      },
+	  {
+	   "type": "text",
+		"id": "menu_break_point",
+		"label": "Mobile menu show on (In pixel)",
+		"default": "769"
+	  },
+	  {
+	    "type": "header",
+		"content": "Header style"
+	  },
+	  {
+		"type": "color",
+		"id": "header_bg",
+		"label": "Header background",
+		"default": "#FFF"
+	  },
+	  {
+		"type": "color",
+		"id": "header_shadow_color",
+		"label": "Set header shadow color",
+		"default": "#000"
+	  },
+	  {
+		"type": "text",
+		"id": "header_shadow_opacity",
+		"label": "Set header shadow Opacity",
+		"default": "0.33"
+	  },
+	  {
+		"type": "color",
+		"id": "dropdown_bg",
+		"label": "Dropdown background",
+		"default": "#FFF"
+	  },
+	  {
+		"type": "text",
+		"id": "dropdown_Opacity",
+		"label": "Dropdown Opacity",
+		"default": "0.95"
+	  },
+	  {
+        "type": "select",
+        "id": "type_menu_family",
+        "label": "Menu Font",
+        "default": "'HelveticaNeue'",
+        "options": [
+		  {
+            "value": "'HelveticaNeue'",
+            "label": "Helvetica Neue"
+          },
+		  {
+            "value": "'AdelleSans'",
+            "label": "Adelle Sans"
+          },
+		  {
+            "value": "'Oswald'",
+            "label": "Oswald"
+          },
+		  {
+            "value": "'Roboto'",
+            "label": "Roboto"
+          }
+		]
+	  },
+	  {
+		"type": "select",
+		"id": "menu_font_weight",
+        "label": "Font Weight",
+		"default": "300",
+		"options": [
+		  {
+            "value": "100",
+            "label": "Thin"
+          },
+		  {
+            "value": "200",
+            "label": "Extra Light (Ultra Light)"
+          },
+		  {
+            "value": "300",
+            "label": "Light"
+          },
+		  {
+            "value": "400",
+            "label": "Regualr"
+          },
+		  {
+            "value": "500",
+            "label": "Medium"
+          },
+		  {
+            "value": "600",
+            "label": "Semi Bold (Demi Bold)"
+          },
+		  {
+            "value": "700",
+            "label": "Bold"
+          },
+		  {
+            "value": "800",
+            "label": "Extra Bold (Ultra Bold)"
+          },
+		  {
+            "value": "900",
+            "label": "Black (Heavy)"
+          }
+		]
+	  },
+	  {
+		"type": "color",
+		"id": "menu_font_color",
+        "label": "Menu Color",
+		"default": "#00aedb"
+	  },
+	  {
+		"type": "color",
+		"id": "menu_font_hcolor",
+        "label": "Menu hover Color",
+		"default": "#2e2e2e"
+	  },
+	  {
+		"type": "text",
+		"id": "menu_font_size",
+        "label": "Menu font size(In Pixel)",
+		"default": "16"
+	  },
+	  {
+		"type": "text",
+		"id": "menud_font_size",
+        "label": "Sub Menu font size(In Pixel)",
+		"default": "16"
+	  },
+      {
+        "type": "select",
+        "id": "menu_font_text_transform",
+        "label": "Text Style",
+        "default": "uppercase",
+        "options": [
+          {
+            "value": "uppercase",
+            "label": "UpperCase"
+          },
+		  {
+			"value": "capitalize",
+			"label": "Capitalize"
+		  },
+          {
+            "value": "none",
+            "label": "None"
+          }
+        ]
+      },
+
+	  {
+		"type": "text",
+		"id": "menu_padding",
+        "label": "Menu items Gap(In Pixel)",
+		"default": "18"
+	  },
+	  {
+		"type": "text",
+		"id": "cart_icon_size_desk",
+        "label": "Cart Icon Size (Desktop)",
+		"default": "20"
+	  },
+	  {
+		"type": "text",
+		"id": "cart_icon_size_mob",
+        "label": "Cart Icon Size (Mobile)",
+		"default": "28"
+	  },
+	  {
+		"type": "text",
+		"id": "menu_button_size",
+        "label": "Menu Button Font size",
+		"default": "18"
+	  }
+    ],
+    "blocks": [
+      {
+        "type": "link",
+        "name": "Custom Right Link",
+        "settings": [
+          {
+            "type": "text",
+            "id": "right_link_title",
+            "label": "Link Title"
+          },
+          {
+            "type": "url",
+            "id": "right_link_url",
+            "label": "Link Url"
+          },
+      {
+        "type": "radio",
+        "id": "right_link_style",
+        "label": "Link Style",
+        "default": "button",
+        "options": [
+          {"value": "button", "label": "Button"},
+          {"value": "normal", "label": "Normal"}
+        ]
+      }
+
+        ]
+     },
+      {
+        "type": "image",
+        "name": "Dropdown link images",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Link image"
+          },
+          {
+            "type": "text",
+            "id": "link_title",
+            "label": "Link Handle"
+          }
+
+        ]
+     }
+]
+  }
+{% endschema %}

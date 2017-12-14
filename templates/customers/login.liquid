@@ -1,0 +1,200 @@
+{% if customer  %}<script type="text/javascript">  window.location = "/account";</script>{% endif %}
+
+{% comment %}<div class="col-sm-12 collection_nav">
+  <h1 class="center"><div class = "sI">Sign In</div><div class = "sU" style = "display:none;">Sign Up</div></h1>
+  <div class="feature_divider"></div>
+</div>{% endcomment %}
+
+<div class = "row">
+  <div class = "col-md-offset-3 col-md-6 col-sm-offset-0 col-sm-12">
+
+    <div class="section signin-wrapper clearfix" id="customer">
+      <div class = "form-wrapper">
+        <div id="login_form">
+          <div class="heading-form acc">
+              <h3>Log In</h3>
+              <p>Login to register your DYLN Bottle and keep it up-to-date!</p>
+          </div>
+          <div id="" class = "form-init">
+          {% form 'customer_login' %}
+
+            <div class="form-inner">
+            {{ form.errors | default_errors }}
+              <div class="errors"><ul class = "err" id="error-email"></ul></div>
+              <div id="recover_email" class="clearfix large_form form-block form-group">
+                <label>{{ 'customer.login.email' | t }}</label>
+                <input placeholder = "" type="email" value="" name="customer[email]" id="customer_email" class="large" size="30"  autocorrect="off" autocapitalize="off" tabindex="1" />
+              </div>
+
+              {% if form.password_needed %}
+
+                {% comment %}
+                  Customer Account Login
+                {% endcomment %}
+
+              <div id="recover_email" class="clearfix large_form form-block form-group">
+                <label>{{ 'customer.login.password' | t }}</label>
+                <input placeholder = "" type="password" value="" name="customer[password]" id="customer_password" class="large password" size="16" tabindex="2" />
+              </div>
+              {% endif %}
+
+              <div class="btn-wrap wide">
+                <input class="btn action_button" type="submit" value="{{ 'customer.login.sign_in' | t }}" style="margin-bottom: 5px !important" tabindex="3" />
+              </div>
+              <div class = "center margin-top">
+                <p>
+                  <a href="#" onclick="showRecoverPasswordForm()">{{ 'customer.login.forgot_password' | t }}</a> | <a href = "/account/register" id ="showSignup">Create Account →</a>
+                </p>
+              </div>
+            </div>
+
+          {% endform %}
+
+          {% if shop.checkout.guest_login %}
+            <span class="or"> {{ 'customer.login.or' | t }} </span>
+            {% form 'guest_login' %}
+              <input class="guest_button" type="submit" value="{{ 'customer.login.guest_title_html' | t }}" />
+            {% endform %}
+          {% endif %}
+          </div>
+        </div>
+
+        <div id="recover-password" style='display:none'>
+          <div class="animated fadeInUp">
+
+            <div class="heading-form">
+              <h3>{{ 'customer.recover_password.title' | t }}</h3>
+            </div>
+
+            <div id="" class = "form-init">
+            {% form 'recover_customer_password' %}
+
+            <div class="form-inner">
+              {{ form.errors | default_errors }}
+
+              {% if form.posted_successfully? %}
+                {% assign reset_success = true %}
+              {% endif %}
+              <div id="recover_email" class="clearfix large_form form-block form-group">
+
+                <div id="id_success" hidden style = "display: none;">Email Sent! Check your Email</div>
+                <label>{{ 'customer.recover_password.email' | t }}</label>
+                <input placeholder = "" type="email" value="" size="30" name="email" id="recover-email" class="large" autocorrect="off" autocapitalize="off" />
+              </div>
+
+              <p class = "centered">
+                <em class="note">{{ 'customer.recover_password.subtext' | t }}</em>
+              </p>
+
+              <div class="action_bottom btn-wrap centered">
+                <span class="note"><a href="#" onclick="hideRecoverPasswordForm()">{{ 'customer.recover_password.cancel' | t }}</a>  or</span>
+                <input class="btn action_button" type="submit" value="{{ 'customer.recover_password.submit' | t }}" />
+              </div>
+            </div>
+            {% endform %}
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+  function showRecoverPasswordForm() {
+    document.getElementById('recover-password').style.display = 'block';
+    document.getElementById('login_form').style.display='none';
+    return false;
+  }
+
+  function hideRecoverPasswordForm() {
+    document.getElementById('recover-password').style.display = 'none';
+    document.getElementById('login_form').style.display = 'block';
+    return false;
+  }
+
+  if (window.location.hash == '#recover') { showRecoverPasswordForm() }
+
+  // reset_success is only true when the reset form is
+  {% if reset_success %}
+    showRecoverPasswordForm();
+    $('#id_success').show();
+
+//      setTimeout(function() {
+//          $('#id_success').fadeOut('slow');
+//  }, 4000);
+  {% endif %}
+
+  $('#customer_login').on('submit', function(e) {
+    e.preventDefault();
+    $('#customer_login #error-email li').remove();
+    login($('#customer_email').val(), $('#customer_password').val()).done(function (html) {
+      if (html.indexOf('Invalid login credentials') !== -1) {
+        if ((!isValidEmailAddress($('#customer_email').val())) || ($('customer_email').val() == "")){
+          $('#customer_login #error-email').append('<li> Please enter a valid email address </li>');
+        }
+        else{
+          $('#customer_login #error-email').append('<li> Wrong email or password. Click here to create an account if you have none. </li>');
+        }
+      }
+      else {
+        // redirects the user to the previous page after login
+        dyln_url = [
+          "",
+          "pages/about-dyln-inspired",
+          "products/dyln-living-alkaline-stainless-steel-water-bottle",
+          "products/extra-vitabead-diffusers",
+          "blogs/y-blog",
+          "pages/wholesale",
+          "pages/dyln-ambassadors",
+          "pages/dyln-jobs",
+          "pages/contact-us",
+          "pages/living-alkaline-water-bottle",
+          "account/login",
+          "account/register",
+        ]
+        var ex=document.referrer;
+        var returnurl = ex.replace( "{{ shop.secure_url }}/", '' );
+        if(($.inArray(returnurl, dyln_url) != -1)){
+          document.location.href = "/account";
+        }
+        else{
+          document.location.href = '/' + returnurl;
+        }
+      }
+    });
+  });
+  function login(email, password) {
+    var data = {
+      'customer[email]': email,
+      'customer[password]': password,
+      form_type: 'customer_login',
+      utf8: '✓'
+    };
+
+    var promise = $.ajax({
+      url: '/account/login',
+      method: 'post',
+      data: data,
+      dataType: 'html',
+      async: true
+    });
+
+    return promise;
+  }
+  function isValidEmailAddress(emailAddress) {
+    var pattern = new RegExp(/^(("[\w-+\s]+")|([\w-+]+(?:\.[\w-+]+)*)|("[\w-+\s]+")([\w-+]+(?:\.[\w-+]+)*))(@((?:[\w-+]+\.)*\w[\w-+]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][\d]\.|1[\d]{2}\.|[\d]{1,2}\.))((25[0-5]|2[0-4][\d]|1[\d]{2}|[\d]{1,2})\.){2}(25[0-5]|2[0-4][\d]|1[\d]{2}|[\d]{1,2})\]?$)/i);
+    return pattern.test(emailAddress);
+  };
+  $('#customer_email').click(function(event) {
+    $('#customer_login #error-email li').remove();
+  });
+
+  $('#customer_login #error-email').on('click', function(e) {
+    if($('#customer_login #error-email li').text() == ' No account exists. Click here to create an account. '){
+      document.location.href = '/account/register';
+    }
+  });
+</script>

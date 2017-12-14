@@ -1,0 +1,644 @@
+{%- assign social_icons = false -%}
+
+{% if
+  settings.social_twitter_link != blank
+  or settings.social_facebook_link != blank
+  or settings.social_pinterest_link != blank
+  or settings.social_instagram_link != blank
+  or settings.social_tumblr_link != blank
+  or settings.social_googleplus_link != blank
+  or settings.social_youtube_link != blank
+  or settings.social_vimeo_link != blank
+  or template contains 'article'
+  or template contains 'blog'
+%}
+  {%- assign social_icons = true -%}
+{% endif %}
+
+{% capture social_media_icons %}
+<ul class="social-media-icons">
+  {% if settings.social_facebook_link != blank %}
+  <li><a href="{{settings.social_facebook_link}}" title="Follow On Facebook"><span class="fa fa-facebook" aria-hidden="true"></span></a></li>
+  {% endif %}
+  {% if settings.social_instagram_link != blank %}
+  <li><a href="{{settings.social_instagram_link}}" title="Follow On Instagram"><span class="fa fa-instagram" aria-hidden="true"></span></a></li>
+  {% endif %}
+  {% if settings.social_twitter_link != blank %}
+  <li><a href="{{settings.social_twitter_link}}" title="Follow On Twitter"><span class="fa fa-twitter" aria-hidden="true"></span></a></li>
+  {% endif %}
+  {% if settings.social_pinterest_link != blank %}
+  <li><a href="{{settings.social_pinterest_link}}" title="Follow On Pinterest"><span class="fa fa-pinterest-p" aria-hidden="true"></span></a></li>
+  {% endif %}
+  {% if settings.social_googleplus_link != blank %}
+  <li><a href="{{settings.social_googleplus_link}}" title="Follow on google plus"><span class="fa fa-google-plus" aria-hidden="true"></span></a></li>
+  {% endif %}
+  {% if settings.social_tumblr_link != blank %}
+  <li><a href="{{settings.social_tumblr_link}}" title="Follow On tumbler"><span class="fa fa-tumblr" aria-hidden="true"></span></a></li>
+  {% endif %}
+  {% if settings.social_youtube_link != blank %}
+  <li><a href="{{settings.social_youtube_link}}" title="Follow On youtube"><span class="fa fa-youtube" aria-hidden="true"></span></a></li>
+  {% endif %}
+  {% if settings.social_vimeo_link != blank %}
+  <li><a href="{{settings.social_vimeo_link}}" title="Follow On Viemo"><span class="fa fa-vimeo" aria-hidden="true"></span></a></li>
+  {% endif %}
+</ul>
+{% endcapture %}
+
+{% if section.settings.footer_newsletter_enable %}
+<div id="newsletter-section" class="bg-lazy" bg-url="{% if section.settings.newsletter_bg %}{{ section.settings.newsletter_bg | img_url: '1600x' }}
+{% endif %} " style="background-image: url(''); background-color: {{ section.settings.newsletter_bg_color }}">
+ <div class="newsletter-form site-wrapper">
+   <div class="footer-newsletter">
+   <h3 class="newsletter-title">{{section.settings.newsletter_title}}</h3>
+   <p>{{section.settings.newsletter_content}}</p>
+   {% if section.settings.newsletter_custom_enable %}
+   <div class="custom-newsletter">
+     {{ section.settings.newsletter_custom }}
+   </div>
+
+   {% else %}
+   <div class="def-newsletter">
+            {% form 'customer' %}
+              {{ form.errors | default_errors }}
+              {% if form.posted_successfully? %}
+                <p class="form--success">{{ 'general.newsletter_form.confirmation' | t }}</p>
+              {% else %}
+                <div class="input-group">
+                  <input type="hidden" name="contact[tags]" value="newsletter">
+                  <p class="input-wrap">
+                    <input type="text" class="input-half" name="contact[f-name]" placeholder="First Name" >
+                    <input type="text" class="input-half" name="contact[l-name]" placeholder="Last Name" >
+                  </p>
+                  <p class="input-wrap submit-section">
+                  <input type="email"
+                    name="contact[email]"
+                    id="Email"
+                    class=""
+                    value="{% if customer %}{{ customer.email }}{% endif %}"
+                    placeholder="{{ 'general.newsletter_form.email_placeholder' | t }}"
+                    autocorrect="off"
+                    autocapitalize="off">
+
+				 <input type="submit" id="newsletter-subscribe" name="subscribr" value="Subscribe" >
+
+                  </p>
+                </div>
+              {% endif %}
+            {% endform %}
+
+   </div>
+   {% endif %}
+   </div>
+ </div>
+
+</div>
+{% endif %}
+
+<footer class="site-footer {% if section.settings.footer_newsletter_enable %} newsletter-on{% endif %}" role="contentinfo">
+  <div class="footer-wrapper {{ section.settings.footer_text_align }}" style="max-width: {{section.settings.footer_width}}px;">
+    {% if section.settings.enable_social_icon %}
+    	<div class="footer-blocks ftb-social text-center">
+          <h3 class="widget-title">{{ section.settings.social_icon_title }}</h3>
+          {{ social_media_icons }}
+        </div>
+    {% endif %}
+    {% if section.blocks.size > 0 %}
+    <div class="footer-blocks-wrap">
+      {% for block in section.blocks %}
+      	<div class="footer-blocks ftb-{{ block.type }} col {{ block.settings.widget_width }}">
+ 		 <div class="footer-widget-area">
+         <h3 class="widget-title">{%if block.settings.widget_title_link %}<a href="{{block.settings.widget_title_link}}">{% endif %} {{ block.settings.widget_title }}  {%if block.settings.widget_title_link %}</a>{% endif %}</h3>
+        {% case block.type %}
+        {% when 'content' %}
+         <div class="widget-content f-{{ block.type }}">
+           {% if block.settings.widget_image %}
+           <div class="ft-img">
+           	<img class="img-lazy" src="{{ block.settings.widget_image }}" data-original="{{ block.settings.widget_image | img_url: '300x' }}" >
+           </div>
+           {% endif %}
+           <p>{{ block.settings.widget_content }}</p>
+           {% if block.settings.footer_soclia_enable %}
+           <div class="footer-widget-social">
+             {{ social_media_icons }}
+           </div>
+           {% endif %}
+         </div>
+
+         {% when 'link' %}
+
+           <div class="widget-content f-{{ block.type }}">
+             {% if block.settings.widget_link %}
+             <ul class="ft-menu">
+               {% for link in linklists[block.settings.widget_link].links %}
+
+               <li><a href="{{ link.url }}" > {{ link.title }} </a></li>
+
+               {% endfor %}
+             </ul>
+             {% endif %}
+           </div>
+
+          {% when 'post' %}
+          {% assign post_limit = 1 %}
+          {% capture post_limit %}{{ block.settings.footer_post_count }}{% endcapture %}
+          {% capture nameoftheblog %}{{ block.settings.footer_blog }}{% endcapture %}
+           <div class="widget-content f-{{ block.type }}">
+             <ul class="ft-menu">
+               {% for post in blogs.y-blog.articles limit: post_limit %}
+               <li><a href="{{ post.url }}" > {{ post.title }} </a></li>
+               {% endfor %}
+             </ul>
+           </div>
+
+
+        {% endcase %}
+
+
+      </div>
+        </div>
+      {% endfor %}
+
+    </div>
+    {% endif %}
+     <div class="site-footer__copyright--bottom">
+        <p class="site-footer__copyright-content">&copy; {{ 'now' | date: "%Y" }}, {{ shop.name | link_to: '/' }}  {{section.settings.footer_copy_info}}</p>
+      </div>
+  </div>
+</footer>
+
+<!-- Begin JustUno Code -->
+<script data-cfasync="false">window.ju_num="7BC512C0-FC28-48F2-9557-817EC91B73F2";window.asset_host='//cdn.justuno.com/';(function(i,s,o,g,r,a,m){i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)};a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script',asset_host+'vck.js','juapp');</script>
+<!-- End JustUno Code -->
+
+<style type="text/css">
+  #shopify-section-footer .newsletter-title{
+    font-size: {{section.settings.fnewsletter_title_size}}px;
+    text-transform: {{ section.settings.footer_title_transform }};
+    font-weight: {{ section.settings.footer_font_weight_title }};
+    font-family: {{ section.settings.footer_font }};
+  }
+
+  #shopify-section-footer .newsletter-form p{
+    font-size: {{section.settings.fnewsletter_content_size}}px;
+    font-family: {{ section.settings.footer_font }};
+
+  }
+
+  #shopify-section-footer .newsletter-title,
+  #shopify-section-footer .newsletter-form p {
+    color: {{ section.settings.fnewsletter_text_color }};
+  }
+
+  .site-footer{
+    background-color: {{ section.settings.footer_bg }};
+    color: {{ section.settings.footer_text }};
+    font-family: {{ section.settings.footer_font }};
+    font-weight: {{ section.settings.footer_font_weight_text }};
+  }
+  .site-footer h2, .site-footer h3, .site-footer h4, .site-footer p, .site-footer a, .site-footer li{
+    color: {{ section.settings.footer_text }};
+  }
+  .site-footer h3.widget-title{
+    font-family: {{ section.settings.footer_font }};
+    font-weight: {{ section.settings.footer_font_weight_title }};
+    font-size: {{ section.settings.footer_title_font_size }}px;
+    text-transform: {{ section.settings.footer_title_transform }}
+  }
+
+  .widget-content, .widget-content li, .widget-content p{
+    font-size: {{ section.settings.footer_content_font_size }}px;
+  }
+</style>
+
+{% schema %}
+  {
+    "name": "Footer",
+    "max_blocks": 6,
+    "settings": [
+	  {
+		"type": "header",
+		"content": "Footer Newsletter"
+	  },
+	  {
+		"type": "checkbox",
+		"id": "footer_newsletter_enable",
+        "default": true,
+		"label": "Show NewsLetter"
+	  },
+	  {
+		"type": "text",
+        "id": "newsletter_title",
+        "label": "NewsLetter Title",
+		"default": "News & Updates"
+      },
+	  {
+		"type": "text",
+        "id": "newsletter_content",
+        "label": "NewsLetter Content",
+		"default": "Sign up to get the latest on sales, new releases and more …"
+      },
+	  {
+		"type": "text",
+		"id": "fnewsletter_title_size",
+		"label": "NewsLetter Title Size",
+		"default": "24"
+	  },
+	  {
+		"type": "text",
+		"id": "fnewsletter_content_size",
+		"label": "NewsLetter Content Size",
+		"default": "18"
+	  },
+	  {
+		"type": "color",
+		"id": "fnewsletter_text_color",
+		"label": "NewsLetter Text color",
+		"default": "#00aedb"
+	  },
+	  {
+		"type": "checkbox",
+		"id": "newsletter_custom_enable",
+        "default": false,
+		"label": "Enable Custom Newsletter Form"
+	  },
+	  {
+		"type": "html",
+		"id": "newsletter_custom",
+		"label": "Custom Form Code"
+	  },
+      {
+        "type": "image_picker",
+        "id": "newsletter_bg",
+        "label": "NewsLetter Background "
+      },
+	  {
+		"type": "color",
+		"id": "newsletter_bg_color",
+		"label": "NewsLetter Background color",
+		"default": "#EBF9FC"
+	  },
+	  {
+		"type": "header",
+		"content": "Footer Widgets"
+	  },
+	  {
+		"type": "checkbox",
+		"id": "enable_social_icon",
+		"default": true,
+		"label": "Enable Social",
+		"info": "Top of Footer Widget"
+      },
+	  {
+		"type": "text",
+		"id": "social_icon_title",
+		"label": "Social Title",
+		"default": "Follow us"
+	  },
+	  {
+		"type": "text",
+		"id": "footer_width",
+		"label" : "Footer Width",
+		"default": "1200"
+      },
+	  {
+		"type": "textarea",
+		"id": "footer_copy_info",
+		"label": "Footer copy info"
+      },
+      {
+        "type": "color",
+        "id": "footer_bg",
+        "label": "Footer Background",
+        "default": "#00AEDB"
+      },
+      {
+        "type": "color",
+        "id": "footer_text",
+        "label": "Footer Text",
+        "default": "#FFF"
+      },
+	  {
+		"type": "select",
+		"id": "footer_text_align",
+		"label": "Text align",
+		"options": [
+				{"value": "text-left", "label": "Left"},
+				{"value": "text-center", "label": "Center"}
+			]
+	  },
+	  {
+        "type": "select",
+        "id": "footer_font",
+        "label": "Footer title Font",
+        "default": "'HelveticaNeue'",
+        "options": [
+		  {
+            "value": "'HelveticaNeue'",
+            "label": "Helvetica Neue"
+          },
+		  {
+            "value": "'AdelleSans'",
+            "label": "Adelle Sans"
+          },
+		  {
+            "value": "'Oswald'",
+            "label": "Oswald"
+          },
+		  {
+            "value": "'Roboto'",
+            "label": "Roboto"
+          }
+		]
+	  },
+	  {
+		"type": "select",
+		"id": "footer_font_weight_title",
+        "label": "Font title font weight",
+		"default": "400",
+		"options": [
+		  {
+            "value": "100",
+            "label": "Thin"
+          },
+		  {
+            "value": "200",
+            "label": "Extra Light (Ultra Light)"
+          },
+		  {
+            "value": "300",
+            "label": "Light"
+          },
+		  {
+            "value": "400",
+            "label": "Regualr"
+          },
+		  {
+            "value": "500",
+            "label": "Medium"
+          },
+		  {
+            "value": "600",
+            "label": "Semi Bold (Demi Bold)"
+          },
+		  {
+            "value": "700",
+            "label": "Bold"
+          },
+		  {
+            "value": "800",
+            "label": "Extra Bold (Ultra Bold)"
+          },
+		  {
+            "value": "900",
+            "label": "Black (Heavy)"
+          }
+		]
+	  },
+	  {
+		"type": "text",
+		"id": "footer_title_font_size",
+		"label": "Title Font size",
+		"default": "20"
+	  },
+      {
+        "type": "select",
+        "id": "footer_title_transform",
+        "label": "Title Style",
+        "default": "uppercase",
+        "options": [
+          {
+            "value": "uppercase",
+            "label": "UpperCase"
+          },
+          {
+            "value": "none",
+            "label": "None"
+          }
+        ]
+      },
+	  {
+        "type": "select",
+        "id": "footer_content_font",
+        "label": "Footer Content",
+        "default": "'HelveticaNeue'",
+        "options": [
+		  {
+            "value": "'HelveticaNeue'",
+            "label": "Helvetica Neue"
+          },
+		  {
+            "value": "'AdelleSans'",
+            "label": "Adelle Sans"
+          },
+		  {
+            "value": "'Oswald'",
+            "label": "Oswald"
+          },
+		  {
+            "value": "'Roboto'",
+            "label": "Roboto"
+          }
+		]
+	  },
+	  {
+		"type": "select",
+		"id": "footer_font_weight_text",
+        "label": "Font content",
+		"default": "300",
+		"options": [
+		  {
+            "value": "100",
+            "label": "Thin"
+          },
+		  {
+            "value": "200",
+            "label": "Extra Light (Ultra Light)"
+          },
+		  {
+            "value": "300",
+            "label": "Light"
+          },
+		  {
+            "value": "400",
+            "label": "Regualr"
+          },
+		  {
+            "value": "500",
+            "label": "Medium"
+          },
+		  {
+            "value": "600",
+            "label": "Semi Bold (Demi Bold)"
+          },
+		  {
+            "value": "700",
+            "label": "Bold"
+          },
+		  {
+            "value": "800",
+            "label": "Extra Bold (Ultra Bold)"
+          },
+		  {
+            "value": "900",
+            "label": "Black (Heavy)"
+          }
+		]
+	  },
+	  {
+		"type": "text",
+		"id": "footer_content_font_size",
+		"label": "Content Font size",
+		"default": "15"
+	  }
+    ],
+   "blocks": [
+      {
+      "type": "content",
+       "name": "Footer Content",
+       "settings": [
+            {
+			"type": "text",
+            "id": "widget_title",
+            "label": "Title",
+            "default": "Widget Title"
+            },
+            {
+			"type": "url",
+            "id": "widget_title_link",
+            "label": "Title link"
+            },
+            {
+			"type": "image_picker",
+            "id": "widget_image",
+            "label": "Content Image"
+            },
+            {
+			"type": "textarea",
+            "id": "widget_content",
+            "label": "Content",
+            "default": "Hello I am footer Widget Content"
+            },
+            {
+               "type": "select",
+ 			    "id": "widget_width",
+                "label": "Width",
+                "default": "col-25",
+                "options": [
+                 {"value":"col-20", "label":"20%"},
+                 {"value":"col-25", "label":"25%"},
+                 {"value":"col-33", "label":"33%"},
+                 {"value":"col-40", "label":"40%"},
+				 {"value":"col-60", "label":"60%"}
+                ]
+
+			},
+            {
+				"type": "checkbox",
+                "id": "footer_soclia_enable",
+                "default": false,
+                "label": "Display Social"
+
+            }
+        ]
+      },
+      {
+       "type": "link",
+       "name": "Link",
+       "settings": [
+            {
+			"type": "text",
+            "id": "widget_title",
+            "label": "Title",
+            "default": "Widget Title"
+            },
+            {
+			"type": "url",
+            "id": "widget_title_link",
+            "label": "Title link"
+            },
+            {
+			"type": "link_list",
+            "id": "widget_link",
+            "label": "Select Link"
+            },
+            {
+               "type": "select",
+ 			    "id": "widget_width",
+                "label": "Width",
+                "default": "col-25",
+                "options": [
+                 {"value":"col-20", "label":"20%"},
+                 {"value":"col-25", "label":"25%"},
+                 {"value":"col-33", "label":"33%"},
+                 {"value":"col-40", "label":"40%"},
+				 {"value":"col-60", "label":"60%"}
+                ]
+
+			}
+        ]
+      },
+	  {
+      "type": "post",
+       "name": "Latest Article",
+       "settings": [
+            {
+			"type": "text",
+            "id": "widget_title",
+            "label": "Title",
+            "default": "Widget Title"
+            },
+            {
+			"type": "url",
+            "id": "widget_title_link",
+            "label": "Latest Article"
+            },
+			{
+			  "type": "text",
+              "id": "footer_post_count",
+              "label": "Number Of Post",
+              "default": "4"
+			},
+            {
+               "type": "select",
+ 			    "id": "widget_width",
+                "label": "Width",
+                "default": "col-25",
+                "options": [
+                 {"value":"col-20", "label":"20%"},
+                 {"value":"col-25", "label":"25%"},
+                 {"value":"col-33", "label":"33%"},
+                 {"value":"col-40", "label":"40%"},
+				 {"value":"col-60", "label":"60%"}
+                ]
+
+			}
+        ]
+      }
+
+    ],
+"presets": [{
+      "name": "Footer",
+      "settings": {
+        "footer_bg": "#00AEDB",
+        "footer_text": "#FFF",
+        "footer_font": "''HelveticaNeue''",
+        "footer_font_weight_text" : "300",
+        "footer_font_weight_title" : "500"
+      },
+      "blocks": [
+        {
+          "type": "content"
+        },
+        {
+          "type": "link"
+        },
+        {
+          "type": "link"
+        },
+        {
+          "type": "post"
+        }
+      ]
+    }]
+  }
+{% endschema %}

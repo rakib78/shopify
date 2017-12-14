@@ -1,0 +1,135 @@
+<div class="feature-row {% if section.settings.fullwidth == false %}page-width{% endif %} ">
+  {% capture image_layout %}
+    <div class="feature-row__item">
+      {% if section.settings.image != blank %}
+      <img class="img-lazy feature-row__image" src="" data-original="{{ section.settings.image | img_url: '800x800' }}" >
+      {% else %}
+        {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+      {% endif %}
+    </div>
+  {% endcapture %}
+
+  <div class="feature-row">
+    {% if section.settings.layout == 'left' %}
+      {{ image_layout }}
+    {% endif %}
+
+    <div class="feature-row__item feature-row__text feature-row__text--{{ section.settings.layout }}">
+      <div class="imgtext-wrap {{section.settings.content_alignment}}">
+      {% if section.settings.title != blank %}
+        <h2 class="imgtext-title">{{ section.settings.title | escape }}</h2>
+      {% endif %}
+      {% if section.settings.text != blank %}
+        <div class="imgtext-content">{{ section.settings.text }}</div>
+      {% endif %}
+      {% if section.settings.button_label != blank and section.settings.button_link != blank %}
+        <a href="{{ section.settings.button_link }}" class="btn btn-dark btn-half">
+          {{ section.settings.button_label }}
+        </a>
+      {% endif %}
+      </div>  
+    </div>
+
+    {% if section.settings.layout == 'right' %}
+      {{ image_layout }}
+    {% endif %}
+  </div>
+</div>
+
+<style type="text/css">
+  #shopify-section-{{section.id}} {
+    
+    padding: {{section.settings.section_padding}}px 0;
+  
+  }  
+</style>  
+
+{% schema %}
+  {
+    "name": "Image with text",
+    "class": "index-section",
+    "settings": [
+	  {
+		"type": "checkbox",
+		"id": "fullwidth",
+		"label": "Full Width Section",
+		"default": true
+	  },
+	  {
+		"type": "text",
+		"id": "section_padding",
+		"label": "Padding (IN PIXEL)",
+		"default": "0"
+	  },
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Image"
+      },
+      {
+        "type": "select",
+        "id": "layout",
+        "label": "Layout",
+        "default": "left",
+        "options": [
+          {
+            "value": "left",
+            "label": "Image on left"
+          },
+          {
+            "value": "right",
+            "label": "Image on right"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "content_alignment",
+        "label": "Content alignment",
+        "default": "text-left",
+        "options": [
+          {
+          "value": "text-center",
+          "label": "Center"
+          },
+          {
+          "value": "text-left",
+          "label": "Left"
+          },
+          {
+          "value": "text-right",
+          "label": "Right"
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Image with text"
+      },
+      {
+        "type": "richtext",
+        "id": "text",
+        "label": "Text",
+        "default": "<p>Pair large text with an image to give focus to your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>"
+      },
+      {
+        "type": "text",
+        "id": "button_label",
+        "label": "Button label"
+      },
+      {
+        "type": "url",
+        "id": "button_link",
+        "label": "Button link"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Image with text",
+        "category": "Image"
+      }
+    ]
+  }
+{% endschema %}

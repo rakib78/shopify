@@ -1,0 +1,120 @@
+<div class="feed-section" style="padding-top:{{section.settings.padding_top}}px; padding-bottom:{{section.settings.padding_bottom}}px;">
+<div class="page-width">
+{% if section.settings.twitter_widget or section.settings.instagram_widget %}
+  <div class="grid">
+        {% if section.settings.instagram_widget %}
+            <div class="{% if section.settings.twitter_widget != blank %}medium-up--one-half{% else %}medium-up--one-whole{% endif %} grid__item">
+              <h4 class="title">
+                {% if section.settings.instagram_link != blank %}
+                  <a href="{{ section.settings.instagram_link }}" target="_blank">
+                {% endif %}
+                {{ section.settings.instagram_title }}
+                {% if section.settings.instagram_link != blank %}
+                  </a>
+                {% endif %}
+              </h4>
+
+              <div id="instafeed" data-username="{{ section.settings.instagram_username | downcase }}" data-client-id="{{ section.settings.instagram_client_id }}" data-count="{{ section.settings.instagram_count }}"></div>
+            </div>
+          {% endif %}
+          {% if section.settings.twitter_widget != blank %}
+            <div class="{% if section.settings.instagram_widget != blank %}medium-up--one-half{% else %}medium-up--one-whole{% endif %} grid__item">
+              <h4 class="title"><a href="https://twitter.com/{{ section.settings.twitter_username }}" target="_blank">Tweets</a></h4>
+              <a class="twitter-timeline" href="https://twitter.com/{{ section.settings.twitter_username }}" data-widget-id="319998048782647298" data-tweet-limit="{{ section.settings.tweet_count }}" data-screen-name="{{ section.settings.twitter_username }}" data-chrome="noheader nofooter noborders transparent" data-link-color="{{ settings.link_color }}" data-heading-style="color:{{ settings.color_link }};font-size:{{ settings.type_base_size }}px; font-family: {{ settings.type_header_family }};"></a>
+              <script defer>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+            </div>
+          {% endif %}
+        </div>
+    {% endif %}
+</div>
+</div>  
+{% schema %}
+  {
+    "name": "Social Feed",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Display Twitter and Instagram timeline profile feeds."
+      },
+	  {
+		"type": "text",
+		"id": "padding_top",
+		"label": "Section Top padding",
+		"default": "25"
+	  },
+	  {
+		"type": "text",
+		"id": "padding_bottom",
+		"label": "Section Bottom padding",
+		"default": "0"
+	  },
+      {
+        "type": "checkbox",
+        "id": "twitter_widget",
+        "label": "Twitter timeline enabled"
+      },
+      {
+        "type": "text",
+        "id": "twitter_username",
+        "label": "Twitter username"
+      },
+      {
+        "type": "radio",
+        "id": "twitter_theme",
+        "label": "Twitter timeline theme",
+        "default": "light",
+        "options": [
+          {
+            "value": "light",
+            "label": "Light"
+          },
+          {
+            "value": "dark",
+            "label": "Dark"
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "id": "tweet_count",
+        "label": "Number of tweets",
+        "default": "4"
+      },
+      {
+        "type": "checkbox",
+        "id": "instagram_widget",
+        "label": "Instagram widget enabled"
+      },
+      {
+        "type": "text",
+        "id": "instagram_client_id",
+        "label": "Instagram Access Token ([?](http:\/\/outofthesandbox.com\/pages\/instagram-access-token))"
+      },
+      {
+        "type": "text",
+        "id": "instagram_title",
+        "label": "Instagram widget title",
+        "default": "Instagram"
+      },
+      {
+        "type": "text",
+        "id": "instagram_count",
+        "label": "Number of images",
+        "default": "10"
+      }
+
+	],
+    "presets": [
+      {
+        "name": "Social Feed",
+        "category": "SocialFeed"
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

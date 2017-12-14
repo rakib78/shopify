@@ -1,0 +1,135 @@
+/**
+ * Helper: Ajax
+ *
+ * @desc Helper object for executing common $.ajax funcitons
+ */
+var Ajax = (function () {
+
+    var API_URL = '{{ shop.secure_url }}/a/dyln';
+
+    return {
+        get: get,
+        post: post,
+        delete: remove
+    };
+
+    /* ======= FUNCTION DEFINITIONS ======= */
+
+    /**
+     * Execute GET AJAX request.
+     *
+     * @param {String} url The request URL to fetch.
+     * @param {Object} data The query param to pass with the request.
+     *
+     * @returns {Promise}
+     */
+    function get(url, data) {
+
+        if (url.indexOf('/') == 0) {
+            url = API_URL + url;
+        }
+        if (!data) {
+            data = {};
+        }
+
+        return new Promise(function (resolve, reject) {
+            $.ajax({
+                type: 'GET',
+                url: url,
+                dataType: 'json',
+                data: data,
+                beforeSend: beforeSend,
+                success: function (response) {
+                    resolve(response);
+                },
+                error: function (response) {
+                    reject(response);
+                }
+            });
+        });
+    }
+
+    /**
+     * Execute POST AJAX request.
+     *
+     * @param {String} url The request URL to fetch.
+     * @param {Object} data The data to be sent along w/ the request.
+     *
+     * @returns {Promise}
+     */
+    function post(url, data) {
+
+        if (url.indexOf('/') == 0) {
+            url = API_URL + url;
+        }
+
+        return new Promise(function (resolve, reject) {
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: data,
+                beforeSend: beforeSend,
+                success: function (response) {
+                    resolve(response);
+                },
+                error: function (response) {
+                    reject(response);
+                }
+            });
+        });
+    }
+
+    /**
+     * Execute DELETE AJAX request.
+     *
+     * @param {String} url The request URL to fetch.
+     *
+     * @returns {Promise}
+     */
+    function remove(url) {
+
+        if (url.indexOf('/') == 0) {
+            url = API_URL + url;
+        }
+
+        return new Promise(function (resolve, reject) {
+            $.ajax({
+                type: 'DELETE',
+                url: url,
+                beforeSend: beforeSend,
+                success: function (response) {
+                    resolve(response);
+                },
+                error: function (response) {
+                    reject(response);
+                }
+            });
+        });
+    }
+
+    /**
+     * Attach cookie to $.ajax request
+     *
+     * @param {XMLHttpRequest} [xhr]
+     * @param {Object} [settings]
+     */
+    function beforeSend(xhr, settings) {
+        function getCookie(name) {
+          var cookieValue = null;
+          if (document.cookie && document.cookie != '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+              var cookie = jQuery.trim(cookies[i]);
+              if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+              }
+            }
+          }
+          return cookieValue;
+        }
+        if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+          xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+        }
+    }
+})();

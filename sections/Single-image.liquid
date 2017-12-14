@@ -1,0 +1,32 @@
+<div class="img-sec">
+  <img class="img-lazy" src="" alt="{{ section.settings.image_alt }}" data-original="{{ section.settings.image | img_url: 'master' }}"  >
+</div>  
+{% schema %}
+  {
+    "name": "Single Image Full",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Image"
+      },
+	  {
+		"type": "text",
+		"id": "image_alt",
+		"label": "Image Alt"
+	  }
+	],
+    "presets": [
+      {
+        "name": "Single Image Full",
+        "category": "Image"
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

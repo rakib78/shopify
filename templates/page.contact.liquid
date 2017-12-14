@@ -1,0 +1,11 @@
+{% if settings.enable_contact_map and settings.map_position == "top" %}
+{% section 'map' %}
+{% endif %}
+<div id="contact-page-template">
+  {% section 'contact-template' %}
+</div>
+{% if settings.enable_contact_map and settings.map_position == "bottom" %}
+<div class="contact-map-bottom">
+{% section 'map' %}
+</div>  
+{% endif %}

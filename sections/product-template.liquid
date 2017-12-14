@@ -1,0 +1,358 @@
+<div class="product-template__container page-width" itemscope itemtype="http://schema.org/Product" id="ProductSection-{{ section.id }}" data-section-id="{{ section.id }}" data-section-type="product" data-enable-history-state="true">
+  <meta itemprop="name" content="{{ product.title }}">
+  <meta itemprop="url" content="{{ shop.url }}{{ product.url }}">
+  <meta itemprop="image" content="{{ product.featured_image.src | img_url: '800x' }}">
+
+  {% comment %}
+    Get first variant, or deep linked one
+  {% endcomment %}
+  {%- assign current_variant = product.selected_or_first_available_variant -%}
+  {%- assign product_thumb_size = '110x110' -%}
+  {%- assign product_image_zoom_size = '1024x1024' -%}
+  {%- assign product_image_scale = '2' -%}
+  {%- assign enable_zoom = section.settings.enable_zoom -%}
+
+  {% case section.settings.image_size %}
+    {% when 'small' %}
+      {%- assign product_image_width = 'medium-up--one-third' -%}
+      {%- assign product_description_width = 'medium-up--two-thirds' -%}
+      {%- assign product_thumbnail_width = 'medium-up--one-third' -%}
+      {%- assign product_image_size = '345x' -%}
+    {% when 'medium' %}
+      {%- assign product_image_width = 'medium-up--one-half' -%}
+      {%- assign product_description_width = 'medium-up--one-half' -%}
+      {%- assign product_thumbnail_width = 'medium-up--one-quarter' -%}
+      {%- assign product_image_size = '530x' -%}
+    {% when 'large' %}
+      {%- assign product_image_width = 'medium-up--seven-twelfths' -%}
+      {%- assign product_description_width = 'medium-up--five-twelfths' -%}
+      {%- assign product_thumbnail_width = 'medium-up--seven--one-fifth' -%}
+      {%- assign product_image_size = '1024x' -%}
+    {% when 'full' %}
+      {%- assign product_image_width = '' -%}
+      {%- assign product_description_width = '' -%}
+      {%- assign product_thumbnail_width = 'medium-up--one-eighth' -%}
+      {%- assign product_image_size = '1090x' -%}
+      {%- assign enable_zoom = false -%}
+  {% endcase %}
+<div id="product-box-wrap">
+  <div class="grid product-single">
+    <div class="grid__item product-single__photos {{ product_image_width }}{% if section.settings.image_size == 'full' %} product-single__photos--full{% endif %}">
+      {%- assign featured_img_src = current_variant.featured_image.src | default: product.featured_image.src -%}
+      {%- assign featured_img_alt = current_variant.featured_image.alt | default: product.featured_image.alt -%}
+      <div id="FeaturedImageZoom-{{ section.id }}" class="product-single__photo{% if product.images.size > 1 %} product-single__photo--has-thumbnails{% endif %}" {% if enable_zoom %}data-zoom="{{ featured_img_src | img_url: product_image_zoom_size, scale: product_image_scale }}"{% endif %}>
+        <img src="{{ featured_img_src | img_url: product_image_size }}" alt="{{ featured_img_alt }}" id="FeaturedImage-{{ section.id }}" class="product-featured-img{% if enable_zoom %} js-zoom-enabled{% endif %}">
+      </div>
+
+      {% if product.images.size > 1 %}
+        {% if product.images.size > 3 %}
+          {%- assign enable_thumbnail_slides = true -%}
+        {% endif %}
+
+        <div class="thumbnails-wrapper{% if enable_thumbnail_slides == true %} thumbnails-slider--active{% endif %}">
+          {% if enable_thumbnail_slides == true %}
+            <button type="button" class="btn btn--link medium-up--hide thumbnails-slider__btn thumbnails-slider__prev thumbnails-slider__prev--{{ section.id }}">
+              {% include 'icon-chevron-left' %}
+              <span class="icon__fallback-text">{{ 'sections.slideshow.previous_slide' | t }}</span>
+            </button>
+          {% endif %}
+          <ul class="grid grid--uniform product-single__thumbnails product-single__thumbnails-{{ section.id }}">
+            {% for image in product.images %}
+              <li class="grid__item {{ product_thumbnail_width }} product-single__thumbnails-item">
+                <a
+                  href="{{ image.src | img_url: product_image_size, scale: product_image_scale }}"
+                    class="text-link product-single__thumbnail product-single__thumbnail--{{ section.id }}"
+                    {% if enable_zoom %}data-zoom="{{ image.src | img_url: product_image_zoom_size, scale: product_image_scale }}"{% endif %}>
+                    <img class="product-single__thumbnail-image" src="{{ image.src | img_url: product_thumb_size, scale: product_image_scale }}" alt="{{ image.alt | escape }}">
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+          {% if enable_thumbnail_slides == true %}
+            <button type="button" class="btn btn--link medium-up--hide thumbnails-slider__btn thumbnails-slider__next thumbnails-slider__next--{{ section.id }}">
+              {% include 'icon-chevron-right' %}
+              <span class="icon__fallback-text">{{ 'sections.slideshow.next_slide' | t }}</span>
+            </button>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="grid__item {{ product_description_width }} info-bx">
+      <div class="product-single__meta">
+    <div class="product-info-wrap {% if product.handle contains 'extra-vitabead-diffusers' %} diffusers-form {% endif %}">
+        <h1 itemprop="name" class="product-single-title">{{ product.title }}</h1>
+
+        {% if section.settings.show_vendor %}
+          <p itemprop="brand" class="product-single__vendor">{{ product.vendor }}</p>
+        {% endif %}
+        {% if product.handle contains 'dyln-living-alkaline-stainless-steel-water-bottle' %}  
+        <div class="rating-wrap">
+          <span class="stamped-product-reviews-badge" data-id="{{ product.id }}">{{ product.metafields.stamped.badge }}</span>
+        </div>  
+    {% endif %}
+        <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+          <meta itemprop="priceCurrency" content="{{ shop.currency }}">
+
+          <link itemprop="availability" href="http://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}">
+
+          <p class="product-single__price product-single__price-{{ section.id }}{% unless current_variant.available %} product-price--sold-out{% endunless %}">
+            {% if current_variant.compare_at_price > current_variant.price %}
+                <span class="visually-hidden">{{ 'products.product.regular_price' | t }}</span>
+                <s id="ComparePrice-{{ section.id }}">{{ current_variant.compare_at_price | money }}</s>
+                <span class="product-price__price product-price__price-{{ section.id }} product-price__sale product-price__sale--single">
+                  <span id="ProductPrice-{{ section.id }}"
+                    itemprop="price" content="{{ current_variant.price | divided_by: 100.00 }}" class="product-single-price">
+                    {{ current_variant.price | money }}
+                  </span>
+                  <span class="product-price__sale-label product-price__sale-label-{{ section.id }} hide">{{ 'products.product.on_sale' | t }}</span>
+                </span>
+            {% else %}
+              <span class="visually-hidden">{{ 'products.product.regular_price' | t }}</span>
+              <s id="ComparePrice-{{ section.id }}" class="hide">{{ current_variant.compare_at_price | money }}</s>
+              <span class="product-price__price product-price__price-{{ section.id }}">
+                <span id="ProductPrice-{{ section.id }}"
+                  itemprop="price" content="{{ current_variant.price | divided_by: 100.00 }}" class="product-single-price">
+                  {{ current_variant.price | money }}
+                </span>
+                <span class="product-price__sale-label product-price__sale-label-{{ section.id }} hide">{{ 'products.product.on_sale' | t }}</span>
+              </span>
+            {% endif %}
+          </p>
+          
+          {% if product.handle contains 'dyln-living-alkaline-stainless' %}
+          <p class="small-brif">Reduce plastic waste and create <br>alkaline antioxidant water whenever, wherever.</p>
+          {% endif %}
+          {% if product.handle contains 'extra-vitabead-diffusers' %}
+          <p class="small-brif">Each Extra Diffuser lasts up to 400 refills and fits securely in the bottom of your <a href="/products/dyln-living-alkaline-stainless-steel-water-bottle">DYLN Living Water Bottle</a></p>
+      {% endif %}
+          <form action="/cart/add" method="post" enctype="multipart/form-data" class="product-form product-form-{{ section.id }}{% unless section.settings.show_variant_labels %} product-form--hide-variant-labels{% endunless %}" data-section="{{ section.id }}">
+            {% unless product.options.size == 1 and product.variants[0].title == 'Default Title' %}
+              {% for option in product.options_with_values %}
+                <div class="selector-wrapper js product-form__item pro-val">
+                  <label {% if option.name == 'default' %}class="label--hidden" {% endif %}for="SingleOptionSelector-{{ forloop.index0 }}">
+                    {{ option.name }}
+                  </label>
+                  <select class="single-option-selector single-option-selector-{{ section.id }} product-form__input" id="SingleOptionSelector-{{ forloop.index0 }}" data-index="option{{ forloop.index }}">
+                    {% for value in option.values %}
+                      <option value="{{ value | escape }}"{% if option.selected_value == value %} selected="selected"{% endif %}>{{ value }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+            {% if product.handle contains 'dyln-living-alkaline-stainless' %}
+            
+            {% if option.name contains 'Finish' %}
+            <div class="vr-finish" id="scr-pos">
+              <p class="pinfo-title">SELECT YOUR BOTTLE FINISH</p>
+             <ul id="product-type-var" class="dy">
+             {% for value in option.values %}
+               <li title="{{ value | escape }}" class="{{ value | handleize }}  {% if option.selected_value == value %} var-active {% endif %}"><span class="ptool-tips">{{ value }}</span><div class="f-color"></div></li>
+             {% endfor %}  
+             </ul>
+            </div>  
+            {% endif %}
+            
+            {% if option.name contains 'Sleeve Color' %}
+            <div class="vr-slave-color">
+              <p class="pinfo-title">CHOOSE YOUR SLEEVE COLOR</p>
+             <ul id="product-color-var" class="dy">
+             {% for value in option.values %}
+               <li title="{{ value | escape }}" class="{{ value | handleize }} {% if option.selected_value == value %} var-active {% endif %}">{% if value contains 'Royal Purple'   %}<span class="new-sleeve-icon"></span>{% endif %}{% if value contains 'Crimson Red'  %}<span class="new-sleeve-icon"></span>{% endif %}<span class="ptool-tips">{{ value }}</span><div class="f-color"></div></li>
+             {% endfor %}  
+             </ul>
+            </div>  
+            {% endif %}
+            
+            {% else %}
+            
+            <div class="pro-option-select">
+                  <p class="pinfo-title" {% if option.name == 'default' %}class="label--hidden" {% endif %}for="SingleOptionSelector-{{ forloop.index0 }}">
+                    Select {{ option.name }}
+                  </p>
+              <ul class="pro-option" option-id="SingleOptionSelector-{{ forloop.index0 }}">
+                    {% for value in option.values %}
+                      <li title="{{ value | escape }}" class="{% if option.selected_value == value %} pro-option-active {% endif %}">{{ value }}</li>
+                    {% endfor %}
+              </ul>
+            </div>  
+            
+            {% endif %}
+            
+              {% endfor %}
+            {% endunless %}
+
+            <select name="id" id="ProductSelect-{{ section.id }}" data-section="{{ section.id }}" class="product-form__variants no-js">
+              {% for variant in product.variants %}
+                {% if variant.available %}
+                  <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} value="{{ variant.id }}">
+                    {{ variant.title }}
+                  </option>
+                {% else %}
+                  <option disabled="disabled">{{ variant.title }} - {{ 'products.product.sold_out' | t }}</option>
+                {% endif %}
+              {% endfor %}
+            </select>
+      <div class="product-button-wrap">
+            {% if section.settings.show_quantity_selector %}
+              <div class="qty-wrap">
+                <span class="qty-m"><img src="{{ 'minus_small.png' | asset_img_url: '34x' }}" ></span><input type="text" id="Quantity" name="quantity" value="1" min="1" class="product-form__input" pattern="[0-9]*"><span class="qty-p"><img src="{{ 'plus_small.png' | asset_img_url: '34x' }}" ></span>
+              </div>
+            {% endif %}
+
+
+              <button data-label="{{ 'products.product.add_to_cart' | t }}" type="submit" name="add" id="AddToCart-{{ section.id }}" {% unless current_variant.available %}disabled="disabled"{% endunless %} class="add_to_cart btn product-form__cart-submit{% if product.options.size == 1 and product.variants[0].title == 'Default Title' %} product-form__cart-submit--small{% endif %}">
+                <span id="AddToCartText-{{ section.id }}">
+                  {% unless current_variant.available %}
+                    {{ 'products.product.sold_out' | t }}
+                  {% else %}
+                    {{ 'products.product.add_to_cart' | t }}
+                  {% endunless %}
+                </span>
+              </button>
+              
+            </div>   
+          </form>
+
+        </div>
+          
+          
+        {% if product.handle contains 'dyln-living-alkaline-stainless' %}          
+         <div id="diffuser-product">
+           <form action="/cart/add" method="post" id="product-form-3864576067" class="add-diffuser-form" data-money-format="{{ shop.money_format }}" data-shop-currency="{{ shop.currency }}" >
+           <input type="hidden" name ="id" id="dif-id" value="" />
+           <input type="hidden" name ="option-0" id="df-option" value="" />
+           <input type="hidden" name ="quantity" value="1" id="dif-qty-cal" />  
+
+             <p class="dif-price pinfo-title">ADD EXTRA DIFFUSERS <s class="hide"></s><span></span></p>
+                 <ul id="product-options" name="id">
+                  {% for variant in all_products["extra-vitabead-diffusers"].variants %}
+
+                    <li {% if variant.inventory_quantity <= 0 and variant.available == false %} class="disable" {% endif %} title="{{ variant.title }}" value="{{ variant.id }}" data-sku="{{ variant.sku }}" data-price="{{ variant.price | money }}" data-cprice="{{ variant.compare_at_price | money }}" >{{ variant.title }}</li>
+
+                  {% endfor %}
+                 </ul>
+            <!-- <button data-label="Add to Cart" class="action_button add_to_cart" name="add" type="submit"><span class="text">Add to Cart</span></button> -->
+           </form>
+           
+          </div> 
+        {% endif %}
+          
+          
+        {% if section.settings.enable_description %}
+                <div class="product-single__description rte" itemprop="description">
+                  {{ product.description }}
+                </div>
+        {% endif %}
+
+      </div>
+{% capture permalinkURL %}{{ shop.url }}{{ product.url }}{% endcapture %}        
+<div class="product-share-wrap">
+  <img src="{{ 'share-s.png' | asset_url  }}" class="open-share" >
+  <div class="share-links">
+  <a href="//www.facebook.com/sharer.php?u={{ permalinkURL }}"  class="s-fb pop-link" title="share on Facebook"><img src="{{ 'facebook-s.png' | asset_url}}" alt="share on Facebook"></a>
+    <a href="//twitter.com/share?url={{ permalinkURL }}" class="s-tw pop-link" title="share on Twitter"><img src="{{ 'twitter-s.png' | asset_url}}" alt="share on Twitter"></a>
+    <a href="//pinterest.com/pin/create/button/?url={{ permalinkURL }}&amp;media={{ product.featured_image | product_img_url: 'original' }}&amp;description={{ product.title | escape }}" class="s-pin pop-link" title="share on Pinterest"><img src="{{ 'pinterest-s.png' | asset_url}}" alt="share on Pinterest"></a>
+    <a href="//plus.google.com/share?url={{ permalinkURL }}" class="s-gp pop-link" title="share on googleplus" ><img src="{{ 'google-s.png' | asset_url}}" alt="share on googleplus"></a>
+    <a href="mailto:?&subject=Alkaline Water Anywhere&body={{ permalinkURL }}" class="s-em"><img src="{{ 'email-s.png' | asset_url}}" alt="share on Email"></a> 
+  </div>
+</div>              
+    </div>
+    </div>  
+  </div>
+<!-- End product Grid -->
+</div>  
+  
+{% if product.metafields.stamped.reviews_count and product.metafields.stamped.reviews_count != "0" %}
+<div itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+<span itemprop="itemReviewed" content="{{ product.title }}"></span>
+<span itemprop="ratingValue" content="{{ product.metafields.stamped.reviews_average | round:2 }}"></span>
+<span itemprop="ratingCount" content="{{ product.metafields.stamped.reviews_count }}"></span>
+</div>
+{% endif %}
+  
+</div>
+
+{% if collection %}
+<!--
+  <div class="text-center return-link-wrapper">
+    <a href="{{ collection.url }}" class="btn btn--secondary btn--has-icon-before return-link">
+      {% include 'icon-arrow-left' %}
+      {{ 'products.product.back_to_collection' | t: title: collection.title }}
+    </a>
+  </div>
+-->
+{% endif %}
+
+{% unless product == empty %}
+  <script type="application/json" id="ProductJson-{{ section.id }}">
+    {{ product | json }}
+  </script>
+{% endunless %}
+
+{% schema %}
+  {
+    "name": "Product pages",
+    "settings": [
+      {
+        "type": "select",
+        "id": "image_size",
+        "label": "Image size",
+        "options": [
+          {
+            "value": "small",
+            "label": "Small"
+          },
+          {
+            "value": "medium",
+            "label": "Medium"
+          },
+          {
+            "value": "large",
+            "label": "Large"
+          },
+          {
+            "value": "full",
+            "label": "Full-width"
+          }
+        ],
+        "default": "medium"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_quantity_selector",
+        "label": "Show quantity selector",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "show_variant_labels",
+        "label": "Show variant labels",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_vendor",
+        "label": "Show vendor",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_zoom",
+        "label": "Enable image zoom",
+        "default": true
+      },
+    {
+        "type": "checkbox",
+        "id": "enable_description",
+        "label": "Enable Description",
+        "default": false
+    },
+      {
+        "type": "checkbox",
+        "id": "show_share_buttons",
+        "label": "Show social sharing buttons",
+        "default": true
+      }
+    ]
+  }
+{% endschema %}

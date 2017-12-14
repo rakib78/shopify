@@ -1,0 +1,86 @@
+          	<div id="main-menu">
+				<!-- Main menu -->
+              <ul class="menu">
+                {% for link in linklists[section.settings.main_linklist].links %}
+                  {% if linklists[link.handle] == empty %}
+                    <li><a href="{{ link.url }}" class="top-link {% if link.active %}active{% endif %}">{{ link.title }}</a></li>
+                  {% else %}
+
+                    {% comment %}
+                      Find out how many sub-links there are total in order to determine if the drop down should be split.
+                    {% endcomment %}
+                    {% assign count = 0 %}
+                    {% for link in linklists[link.handle].links %}
+                      {% capture count %}{{ count }}*{% endcapture %}
+                      {% if linklists[link.handle] != empty %}
+                        {% for link in linklists[link.handle].links %}
+                          {% capture count %}{{ count }}*{% endcapture %}
+                        {% endfor %}
+                      {% endif %}
+                    {% endfor %}
+                    {% assign column_threshold = settings.dropdown_column_links | minus: 0 %}
+
+                    <li><a href="{{ link.url }}" class="sub-menu {% if link.active %}active{% endif %} {% for link in linklists[link.handle].links %}{% for l in linklists[link.handle].links %} {% if l.active %}active{% endif %}{% endfor %}{% if link.active %}active{% endif %}{% endfor %}">{{ link.title }}
+                    <!-- Sub menu -->
+                      <span class="icon-down-arrow"></span></a>
+                      <div class="dropdown animated fadeIn">
+                        <div class="dropdown_links clearfix">
+                          <ul>
+                            
+                            {% for link in linklists[link.handle].links %}
+                              <li>
+
+                              <a href="{{ link.url }}">
+                               {% for block in section.blocks %}
+                                
+                                {% if block.type == 'image' %}
+                                {% assign linkhandle = "" %}
+                                {% capture linkhandle %}{{ block.settings.link_title }}{% endcapture %}
+                                
+                                
+                              {% if link.url contains linkhandle  %}
+                                <span class="menu-img"><img src="{{ block.settings.image | img_url: '150x' }}" alt="{{ link.title }}" ></span>
+                              {% endif %}
+                                
+                               {% endif %} 	
+                              {% endfor %} 
+
+
+                              {{ link.title }}
+                              </a>
+                              </li>
+                              {% if linklists[link.handle] != empty %}
+                                {% for link in linklists[link.handle].links %}
+                                  {% capture count %}{{ count }}*{% endcapture %}
+                                  <li>
+                                    <a class="sub-link" href="{{ link.url }}">
+                               {% if link.url == '/products/dyln-living-alkaline-stainless-steel-water-bottle'  %}
+                              <span class="menu-img"><img src="{{ 'dyln-bottol-tr.png' | asset_img_url: 'compact' }}" alt="{{ link.title }}" /></span>
+                              {% endif %}
+
+                              {% if link.url == '/products/extra-vitabead-diffusers'  %}
+                              <span class="menu-img"><img class="differ-product" src="{{ 'difuser-tr.png' | asset_img_url: 'compact' }}" alt="{{ link.title }}" /></span>
+                              {% endif %}
+
+                                    {{ link.title }}
+                                    </a>
+                                  </li>
+                                {% endfor %}
+                              {% endif %}
+
+                              {% if count.size > column_threshold and split == false %}
+                                {% assign split = true %}
+                                </ul>
+                                <ul>
+                              {% endif %}
+                            {% endfor %}
+                          </ul>
+                        </div>
+                      </div>
+                    </li>
+                  {% endif %}
+                {% endfor %}
+              </ul>
+              <div class="section-clear"></div>
+          <!-- End main menu -->
+          </div>

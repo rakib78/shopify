@@ -1,0 +1,72 @@
+<div class="blog-header-bg hero overlay-one  hero--{{ settings.blog_header_height}}"
+     bg-url="{{ settings.blog_header_bg | img_url: '1600x1600' }}"  >
+  <div class="hero__inner">
+    <div class="shideshow-wrap text-center">
+      <div class="imageo-text">
+        <h2 class="blog-header">
+          {{ blog.title }}
+        </h2>
+        <div class="blog-subheader">
+          {{ settings.blog_subheader_text }}
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+<div class="blog-top-section">  
+<div class="page-width">
+<div class="left-pad">  
+	<div class="pagination-wrapper">
+        {% if settings.blog_breadcrumb %}
+          <span itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a href="{{ shop.url }}" title="{{ shop.name | escape }}" itemprop="item"><span itemprop="name">{{ 'general.breadcrumbs.home' | t }}</span></a></span>
+          &nbsp;<span class="icon-right-arrow"></span>
+          <span itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a href="{{ blog.url }}" title="{{ blog.title | escape }}" itemprop="item"><span itemprop="name">{{ blog.title }}</span></a></span>
+          {% if current_tags %}
+            {% for tag in current_tags %}
+              &nbsp;<span class="icon-right-arrow"></span>
+              <span itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a href="/blogs/{{ blog.handle }}/tagged/{{ tag | handleize }}" title="{{ tag | escape }}" itemprop="item"><span itemprop="name">{{ tag }}</span></a></span>
+            {% endfor %}
+          {% endif %}
+
+          {% if paginate.pages != 0 %}
+            &nbsp;<span class="icon-right-arrow"></span> {{ 'general.breadcrumbs.page' | t: current_page: paginate.current_page, pages: paginate.pages }}
+          {% endif %}
+        {% endif %}      
+    </div>  
+    {% if blog.tags.size > 0 %}
+      <select id="BlogTagFilter">
+        <option value="/blogs/{{ blog.handle }}">{{ 'blogs.article.all_topics' | t }}</option>
+        {% for tag in blog.all_tags %}
+          <option value="/blogs/{{ blog.handle }}/tagged/{{ tag | handleize }}" {% if current_tags contains tag %}selected{% endif %}>{{ tag }}</option>
+        {% endfor %}
+      </select>
+    {% endif %}
+  <div style="clear:both"></div>
+  </div>
+  </div>  
+</div> 
+{% comment %}
+  The contents of the blog.liquid template can be found in /sections/blog-template.liquid
+{% endcomment %}
+
+<div class="page-width">
+<div class="left-pad">    
+{% if settings.enable_blog_sidebar %} 
+<div class="grid">
+{% endif %}
+  
+<div class="{% if settings.enable_blog_sidebar %}grid__item medium-up--three-quarters {% endif %}" id="blog-main">  
+{% section 'blog-template' %}
+</div>
+  
+{% if settings.enable_blog_sidebar %}
+<div class="grid__item medium-up--one-quarter" id="main-sidebar">  
+{% section 'sidebar-template' %}
+</div>  
+  
+</div>
+{% endif %}
+</div>  
+</div>
+
+ 

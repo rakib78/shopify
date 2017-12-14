@@ -1,0 +1,10 @@
+<div class="top-logo">
+  <a href="{{ shop.url }}" title="{{ shop.name }}">
+    {% if section.settings.logo %}
+    {% capture image_size %}{{ section.settings.logo_max_width }}x{% endcapture %}
+    <img src="{{ section.settings.logo | img_url: "400x" }}" alt="{{ shop.name }}" />
+    {% else %}
+    {{ shop.name }}
+    {% endif %}
+  </a>
+</div>
